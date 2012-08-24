@@ -4,6 +4,7 @@
     izi.bakeBeans({
 
         // Utils
+        router: new com.utils.Router(),
         textUtil: new com.utils.TextUtil(),
 
         // View
@@ -16,6 +17,7 @@
 
         // Behaviors
         updateList: new com.taskslist.behaviors.UpdateTasksList(),
+        filterTasksList: new com.taskslist.behaviors.FilterTasksList(),
         toggleFooterAndMain: new com.taskslist.behaviors.ToggleFooterAndMain(),
         addNewTask: new com.taskslist.behaviors.AddNewTask()
     });

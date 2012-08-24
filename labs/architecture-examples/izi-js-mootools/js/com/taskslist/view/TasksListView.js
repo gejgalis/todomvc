@@ -3,17 +3,22 @@ com.taskslist.view.TasksListView = new Class(
         updateList: izi.inject("com.taskslist.behaviors.UpdateTasksList"),
         toggleFooterAndMain: izi.inject("com.taskslist.behaviors.ToggleFooterAndMain"),
         tasksListModel: izi.inject("com.taskslist.model.TasksListModel"),
+        filterTasksList: izi.inject("com.taskslist.behaviors.FilterTasksList"),
+        router: izi.inject("com.utils.Router"),
 
         iziInit: function () {
 
             var updateList = this.updateList,
                 toggleFooterAndMain = this.toggleFooterAndMain,
+                filterTasksList = this.filterTasksList,
                 listModel = this.tasksListModel,
-                activeCountFormatter = this.activeCountFormatter;
+                activeCountFormatter = this.activeCountFormatter,
+                router = this.router;
 
             // Behaviors
             izi.perform(updateList).whenChangeOf("items").on(listModel);
             izi.perform(toggleFooterAndMain).whenChangeOf("allCount").on(listModel);
+            izi.perform(filterTasksList).when("routeChange").on(router);
 
             // Bindings
             izi.bind().valueOf(listModel, "activeCount").through(activeCountFormatter).to($('todo-count'), "html");
