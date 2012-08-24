@@ -9,7 +9,7 @@ com.taskslist.behaviors.ToggleFilters= new Class(
                 } else {
                     filter.set('class', '');
                 }
-            })
+            });
         }
     }
 );
