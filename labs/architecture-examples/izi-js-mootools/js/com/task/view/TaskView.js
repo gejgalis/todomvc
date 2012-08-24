@@ -25,7 +25,7 @@
                 // View Bindings
                 izi.bind().valueOf(taskModel, "label").to().textOf(label);
                 izi.bind().valueOf(taskModel, "taskClass").to(li, "class");
-                izi.bind().valueOf(taskModel, "isDone").to(checkbox, "checked");
+                izi.bind().valueOf(taskModel, "completed").to(checkbox, "checked");
 
                 // View Behaviors
                 izi.perform(removeTask).when(izi.events.click()).on(removeButton);

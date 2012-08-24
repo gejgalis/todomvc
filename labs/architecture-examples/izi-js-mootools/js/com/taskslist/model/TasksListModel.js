@@ -21,7 +21,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         addTaskModel: function (taskModel) {
             this.getSourceItems().push(taskModel);
 
-            izi.bind().valueOf(taskModel, "isDone").to(this.updateItemsCount, this);
+            izi.bind().valueOf(taskModel, "completed").to(this.updateItemsCount, this);
             this.updateItems();
         },
 
@@ -37,7 +37,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         getActiveCount: function () {
             var count = 0;
             org.izi.utils.forEach(this.getSourceItems(), function (item) {
-                if (!item.isDone()) {
+                if (!item.completed()) {
                     count++;
                 }
             });
@@ -75,13 +75,13 @@ com.taskslist.model.TasksListModel = izi.modelOf(
 
         filterCompleted: function () {
             this.filter(function (item) {
-                return item.isDone();
+                return item.completed();
             })
         },
 
         filterActive: function () {
             this.filter(function (item) {
-                return !item.isDone();
+                return !item.completed();
             })
         },
 

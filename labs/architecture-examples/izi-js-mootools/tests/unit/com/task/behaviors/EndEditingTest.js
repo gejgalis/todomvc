@@ -27,7 +27,7 @@ describe("EndEditing behavior", function () {
 
         // given
         taskModel.label("This is edited text   ");
-        taskModel.isDone(true);
+        taskModel.completed(true);
 
         // when
         behavior.perform();

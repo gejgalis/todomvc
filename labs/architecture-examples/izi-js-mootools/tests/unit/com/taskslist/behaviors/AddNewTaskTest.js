@@ -22,7 +22,7 @@ describe("AddNewTask behavior", function () {
         // then
         var expectedTaskModel = new com.task.model.TaskModel();
         expectedTaskModel.label("Buy a milk");
-        expectedTaskModel.isDone(false);
+        expectedTaskModel.completed(false);
 
         expect(tasksListModel.addTaskModel).toHaveBeenCalledWith(expectedTaskModel);
     });

@@ -6,7 +6,7 @@ describe("TasksListModel", function () {
         model = new com.taskslist.model.TasksListModel();
         activeTask = new com.task.model.TaskModel();
         completedTask = new com.task.model.TaskModel();
-        completedTask.isDone(true);
+        completedTask.completed(true);
     });
 
     it("Should get 0 items and empty collection at the beginning", function () {
