@@ -19,6 +19,7 @@
         updateList: new com.taskslist.behaviors.UpdateTasksList(),
         filterTasksList: new com.taskslist.behaviors.FilterTasksList(),
         toggleFooterAndMain: new com.taskslist.behaviors.ToggleFooterAndMain(),
+        toggleFilters: new com.taskslist.behaviors.ToggleFilters(),
         addNewTask: new com.taskslist.behaviors.AddNewTask()
     });
 
