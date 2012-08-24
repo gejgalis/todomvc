@@ -67,8 +67,9 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         },
 
         updateItemsCount: function () {
-            this.dispatchEvent("change", ["activeCount"]);
             this.dispatchEvent("change", ["allCount"]);
+            this.dispatchEvent("change", ["activeCount"]);
+            this.dispatchEvent("change", ["completedCount"]);
         },
 
         filter: function (filterFn) {
