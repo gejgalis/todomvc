@@ -18,6 +18,7 @@ com.taskslist.view.TasksListView = new Class(
                 listModel = this.tasksListModel,
                 activeCountFormatter = this.activeCountFormatter,
                 clearCompletedFormatter = this.clearCompletedFormatter,
+                clearCompletedButton = $('clear-completed'),
                 router = this.router;
 
             // Behaviors
@@ -26,10 +27,11 @@ com.taskslist.view.TasksListView = new Class(
             izi.perform(toggleClearCompleted).whenChangeOf("allCount").on(listModel);
             izi.perform(toggleFilters).when("routeChange").on(router);
             izi.perform(filterTasksList).when("routeChange").on(router);
+            izi.perform(listModel.clearCompleted, listModel).when("click").on(clearCompletedButton);
 
             // Bindings
             izi.bind().valueOf(listModel, "activeCount").through(activeCountFormatter).to($('todo-count'), "html");
-            izi.bind().valueOf(listModel, "completedCount").through(clearCompletedFormatter).to($('clear-completed'), "html");
+            izi.bind().valueOf(listModel, "completedCount").through(clearCompletedFormatter).to(clearCompletedButton, "html");
         },
 
         addTaskModelView: function (listItemView) {

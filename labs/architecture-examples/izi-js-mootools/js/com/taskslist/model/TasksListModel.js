@@ -91,6 +91,21 @@ com.taskslist.model.TasksListModel = izi.modelOf(
 
         filterAll: function () {
             this.filter(undefined);
+        },
+
+        clearCompleted: function () {
+            var me = this,
+                itemsToRemove = [];
+
+            org.izi.utils.forEach(this.getSourceItems(), function (item) {
+                if (item.completed()) {
+                    itemsToRemove.push(item);
+                }
+            });
+
+            org.izi.utils.forEach(itemsToRemove, function (item) {
+                me.removeTaskModel(item);
+            })
         }
     }
 );

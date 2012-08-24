@@ -104,6 +104,17 @@ describe("TasksListModel", function () {
         expect(model.items().length).toBe(0);
     });
 
+    it("Should clear completed tasks", function () {
 
+        // given
+        model.addTaskModel(completedTask);
+        model.addTaskModel(activeTask);
 
+        // when
+        model.clearCompleted();
+
+        // then
+        expect(model.items().length).toBe(1);
+        expect(model.items()[0]).toBe(activeTask);
+    });
 });
