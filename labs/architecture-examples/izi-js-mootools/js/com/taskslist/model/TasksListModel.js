@@ -51,6 +51,10 @@ com.taskslist.model.TasksListModel = izi.modelOf(
             return this.getSourceItems().length;
         },
 
+        getAllCompleted: function () {
+            return this.getCompletedCount() > 0 && this.getActiveCount() === 0;
+        },
+
         updateItems: function () {
             var filterFn = this.filterFn,
                 items = [],
@@ -70,6 +74,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
             this.dispatchEvent("change", ["allCount"]);
             this.dispatchEvent("change", ["activeCount"]);
             this.dispatchEvent("change", ["completedCount"]);
+            this.dispatchEvent("change", ["allCompleted"]);
         },
 
         filter: function (filterFn) {

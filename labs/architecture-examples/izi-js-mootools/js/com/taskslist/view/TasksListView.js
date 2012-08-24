@@ -32,6 +32,7 @@ com.taskslist.view.TasksListView = new Class(
             // Bindings
             izi.bind().valueOf(listModel, "activeCount").through(activeCountFormatter).to($('todo-count'), "html");
             izi.bind().valueOf(listModel, "completedCount").through(clearCompletedFormatter).to(clearCompletedButton, "html");
+            izi.bind().valueOf(listModel, "allCompleted").to($('toggle-all'), "checked");
         },
 
         addTaskModelView: function (listItemView) {
