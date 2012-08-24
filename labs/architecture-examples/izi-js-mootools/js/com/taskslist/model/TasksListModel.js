@@ -21,8 +21,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         addTaskModel: function (taskModel) {
             this.getSourceItems().push(taskModel);
 
-            izi.bind().valueOf(taskModel, "completed").to(this.updateItemsCount, this);
-            this.updateItems();
+            izi.bind().valueOf(taskModel, "completed").to(this.updateItems, this);
         },
 
         /**

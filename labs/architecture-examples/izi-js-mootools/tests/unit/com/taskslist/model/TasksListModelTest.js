@@ -76,6 +76,34 @@ describe("TasksListModel", function () {
         expect(model.getAllCount()).toBe(2);
     });
 
+    it("Should filter active tasks after add item", function () {
+
+        // given
+        model.addTaskModel(completedTask);
+        model.filterActive();
+        expect(model.items().length).toBe(0);
+
+        // when
+        model.addTaskModel(activeTask);
+
+        // then
+        expect(model.items().length).toBe(1);
+    });
+
+    it("Should update active tasks when task is going to be completed", function () {
+
+        // given
+        model.addTaskModel(activeTask);
+        model.filterActive();
+
+
+        // when
+        activeTask.completed(true);
+
+        // then
+        expect(model.items().length).toBe(0);
+    });
+
 
 
 });
