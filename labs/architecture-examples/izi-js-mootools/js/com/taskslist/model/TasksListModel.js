@@ -111,6 +111,15 @@ com.taskslist.model.TasksListModel = izi.modelOf(
             org.izi.utils.forEach(itemsToRemove, function (item) {
                 me.removeTaskModel(item);
             })
+        },
+
+        toggleAllComplete: function () {
+            org.izi.utils.forEach(this.getSourceItems(), function (item) {
+                if (!item.completed()) {
+                    item.toggleCompleted();
+                }
+            });
+            this.dispatchEvent("change", ["allCompleted"]);
         }
     }
 );
