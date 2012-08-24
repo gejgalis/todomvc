@@ -9,8 +9,8 @@ com.taskslist.view.NewTaskView = new Class(
                 addNewTask = this.addNewTask;
 
             // Bindings
-            izi.bind().valueOf(newTaskInput).to(model, "description");
-            izi.bind().valueOf(model, "description").to().valueOf(newTaskInput);
+            izi.bind().valueOf(newTaskInput).to(model, "title");
+            izi.bind().valueOf(model, "title").to().valueOf(newTaskInput);
 
             // Behaviors
             izi.perform(addNewTask).when(izi.events.keyDown().ENTER().stopEvent()).on(newTaskInput);

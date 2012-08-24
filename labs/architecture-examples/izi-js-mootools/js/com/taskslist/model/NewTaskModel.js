@@ -1,11 +1,11 @@
 com.taskslist.model.NewTaskModel = izi.modelOf(
     {
         fields: [
-            {name: "description", defaultValue: ""}
+            {name: "title", defaultValue: ""}
         ],
 
         clear: function () {
-            this.description("");
+            this.title("");
         }
     }
 );

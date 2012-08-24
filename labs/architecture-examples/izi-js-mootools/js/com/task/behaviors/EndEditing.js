@@ -11,9 +11,9 @@ com.task.behaviors.EndEditing = new Class(
                 removeTask = this.removeTask,
                 trim = this.textUtil.trim;
 
-            model.label(trim(model.label()));
+            model.title(trim(model.title()));
 
-            if (model.label() === "") {
+            if (model.title() === "") {
                 removeTask.perform();
             } else {
                 model.taskClass(model.completed() ? "completed" : "");

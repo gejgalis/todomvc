@@ -14,19 +14,19 @@ describe("EndEditing behavior", function () {
     it("Should trim edited task", function () {
 
         // given
-        taskModel.label("This is edited text   ");
+        taskModel.title("This is edited text   ");
 
         // when
         behavior.perform();
 
         // then
-        expect(taskModel.label()).toBe('This is edited text');
+        expect(taskModel.title()).toBe('This is edited text');
     });
 
     it("Should switch task class to 'completed' when task was completed", function () {
 
         // given
-        taskModel.label("This is edited text   ");
+        taskModel.title("This is edited text   ");
         taskModel.completed(true);
 
         // when
@@ -39,7 +39,7 @@ describe("EndEditing behavior", function () {
     it("Should remove task if edited text is empty", function () {
 
         // given
-        taskModel.label("");
+        taskModel.title("");
 
         // when
         behavior.perform();
@@ -51,7 +51,7 @@ describe("EndEditing behavior", function () {
     it("Should not remove task if edited text is valid", function () {
 
         // given
-        taskModel.label("Some valid task");
+        taskModel.title("Some valid task");
 
         // when
         behavior.perform();
@@ -63,7 +63,7 @@ describe("EndEditing behavior", function () {
     it("Should remove task if edited text has only spaces", function () {
 
         // given
-        taskModel.label("   ");
+        taskModel.title("   ");
 
         // when
         behavior.perform();

@@ -14,23 +14,23 @@ describe("AddNewTask behavior", function () {
     it("Should add and trim new task", function () {
 
         // given
-        newTaskModel.description("   Buy a milk   \t\r\n");
+        newTaskModel.title("   Buy a milk   \t\r\n");
 
         // when
         behavior.perform();
 
         // then
         var expectedTaskModel = new com.task.model.TaskModel();
-        expectedTaskModel.label("Buy a milk");
+        expectedTaskModel.title("Buy a milk");
         expectedTaskModel.completed(false);
 
         expect(tasksListModel.addTaskModel).toHaveBeenCalledWith(expectedTaskModel);
     });
 
-    it("Should not add a new task when given description contains only white spaces", function () {
+    it("Should not add a new task when given title contains only white spaces", function () {
 
         // given
-        newTaskModel.description("       \t\r\n");
+        newTaskModel.title("       \t\r\n");
 
         // when
         behavior.perform();

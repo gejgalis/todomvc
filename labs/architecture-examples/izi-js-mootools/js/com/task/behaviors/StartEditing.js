@@ -8,7 +8,7 @@ com.task.behaviors.StartEditing = new Class(
         perform: function () {
             var model = this.taskModel;
             model.taskClass("editing");
-            this.editor.selectRange(0, model.label().length);
+            this.editor.selectRange(0, model.title().length);
         }
     }
 );

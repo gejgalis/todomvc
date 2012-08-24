@@ -9,7 +9,7 @@ com.taskslist.behaviors.AddNewTask = new Class(
                 listModel = this.tasksListModel,
                 trim = this.textUtil.trim;
 
-            if (trim(newItemModel.description()) !== "") {
+            if (trim(newItemModel.title()) !== "") {
                 listModel.addTaskModel(this.createNewTaskModel());
                 newItemModel.clear();
             }
@@ -20,7 +20,7 @@ com.taskslist.behaviors.AddNewTask = new Class(
                 trim = this.textUtil.trim,
                 newItemModel = this.newTaskModel;
 
-            taskModel.label(trim(newItemModel.description()));
+            taskModel.title(trim(newItemModel.title()));
             return taskModel;
         }
     }

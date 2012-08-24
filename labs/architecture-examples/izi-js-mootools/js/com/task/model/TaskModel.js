@@ -1,7 +1,7 @@
 com.task.model.TaskModel = izi.modelOf(
     {
         fields: [
-            {name: "label", initialValue: ""},
+            {name: "title", initialValue: ""},
             {name: "completed", initialValue: false},
             {name: "taskClass", initialValue: ""}
         ],
