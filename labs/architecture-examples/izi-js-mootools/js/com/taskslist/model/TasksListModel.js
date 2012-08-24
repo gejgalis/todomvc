@@ -43,6 +43,10 @@ com.taskslist.model.TasksListModel = izi.modelOf(
             return count;
         },
 
+        getCompletedCount: function () {
+            return this.getAllCount() - this.getActiveCount();
+        },
+
         getAllCount: function () {
             return this.getSourceItems().length;
         },

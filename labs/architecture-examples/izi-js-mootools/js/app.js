@@ -20,6 +20,7 @@
         filterTasksList: new com.taskslist.behaviors.FilterTasksList(),
         toggleFooterAndMain: new com.taskslist.behaviors.ToggleFooterAndMain(),
         toggleFilters: new com.taskslist.behaviors.ToggleFilters(),
+        toggleClearCompleted: new com.taskslist.behaviors.ToggleClearCompleted(),
         addNewTask: new com.taskslist.behaviors.AddNewTask()
     });
 

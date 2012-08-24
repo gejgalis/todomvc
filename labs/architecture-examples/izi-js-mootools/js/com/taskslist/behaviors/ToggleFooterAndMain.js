@@ -1,18 +1,15 @@
 com.taskslist.behaviors.ToggleFooterAndMain = new Class(
     {
-
-        /**
-         * @type {com.taskslist.model.TasksListModel}
-         */
         tasksListModel: izi.inject("com.taskslist.model.TasksListModel"),
 
         perform: function () {
-            var allCount = this.tasksListModel.getAllCount();
+            var allCount = this.tasksListModel.getAllCount(),
+                mainAndFooter = $$("#main,#footer");
 
             if (allCount === 0) {
-                $$("#main,#footer").hide();
+                mainAndFooter.hide();
             } else {
-                $$("#main,#footer").show();
+                mainAndFooter.show();
             }
         }
     }
