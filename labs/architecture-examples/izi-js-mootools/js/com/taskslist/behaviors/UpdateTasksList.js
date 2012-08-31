@@ -21,7 +21,7 @@ com.taskslist.behaviors.UpdateTasksList = new Class(
             listView.clearList();
 
             listModel.items().forEach(function (taskModel) {
-                var listItemView = new com.task.view.TaskView(taskModel, listModel);
+                var listItemView = new com.task.view.TaskView(listModel).setModel(taskModel);
                 listView.addTaskModelView(listItemView);
             });
         }

@@ -10,9 +10,23 @@
         {
             el: null,
 
-            initialize: function (taskModel, listModel) {
+            initialize: function (listModel) {
 
-                var li = this.el = createTaskElement(),
+                this.el = createTaskElement();
+                this.registry = [];
+                this.listModel = listModel;
+            },
+
+            getEl: function () {
+                return this.el;
+            },
+
+            setModel: function (taskModel) {
+                this.destroy();
+
+                var li = this.el,
+                    registry = this.registry,
+                    listModel = this.listModel,
                     title = li.getElement("label")[0],
                     editor = li.getElement(".edit")[0],
                     checkbox = li.getElement(".toggle")[0],
@@ -23,26 +37,35 @@
                     switchToView = new com.task.behaviors.EndEditing(taskModel, removeTask);
 
                 // View Bindings
-                izi.bind().valueOf(taskModel, "title").to().textOf(title);
-                izi.bind().valueOf(taskModel, "taskClass").to(li, "class");
-                izi.bind().valueOf(taskModel, "completed").to(checkbox, "checked");
+                registry.push(izi.bind().valueOf(taskModel, "title").to().textOf(title));
+                registry.push(izi.bind().valueOf(taskModel, "taskClass").to(li, "class"));
+                registry.push(izi.bind().valueOf(taskModel, "completed").to(checkbox, "checked"));
 
                 // View Behaviors
-                izi.perform(removeTask).when(izi.events.click()).on(removeButton);
-                izi.perform(toggleCompleted).when(izi.events.click()).on(checkbox);
-                izi.perform(switchToEdit).when(izi.events.dblClick()).on(title);
+                registry.push(izi.perform(removeTask).when(izi.events.click()).on(removeButton));
+                registry.push(izi.perform(toggleCompleted).when(izi.events.click()).on(checkbox));
+                registry.push(izi.perform(switchToEdit).when(izi.events.dblClick()).on(title));
 
                 // Editor Bindings
-                izi.bind().valueOf(taskModel, "title").to().valueOf(editor);
-                izi.bind().valueOf(editor).to(taskModel, "title");
+                registry.push(izi.bind().valueOf(taskModel, "title").to().valueOf(editor));
+                registry.push(izi.bind().valueOf(editor).to(taskModel, "title"));
 
                 // Editor Behaviors
-                izi.perform(switchToView).when(izi.events.keyDown().ENTER().stopEvent()).on(editor);
-                izi.perform(switchToView).when(izi.events.blur()).on(editor);
+                registry.push(izi.perform(switchToView).when(izi.events.keyDown().ENTER().stopEvent()).on(editor));
+                registry.push(izi.perform(switchToView).when(izi.events.blur()).on(editor));
+
+                return this;
             },
 
-            getEl: function () {
-                return this.el;
+            destroy: function () {
+                var registry = this.registry;
+
+                Array.each(registry, function (binding) {
+                    binding.stopObserving();
+                });
+
+                registry.splice(0, registry.length);
+                console.log("Registry length", registry.length);
             }
         }
     );
