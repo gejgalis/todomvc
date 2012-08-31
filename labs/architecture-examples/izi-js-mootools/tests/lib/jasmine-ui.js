@@ -4130,6 +4130,9 @@ jasmineui.define('utils', function() {
         if (url.charAt(0) === '/') {
             return url;
         }
+        if (currentScriptUrl.indexOf('data:')===0) {
+            return url;
+        }
         var res = currentScriptUrl;
         var lastSlash = res.lastIndexOf('/');
         return res.substring(0, lastSlash+1)+url;

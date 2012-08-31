@@ -1,66 +1,44 @@
-
 describeUi("Todo - Add new task", "index.html", function () {
 
-    function pressEnter(newTodoInput) {
-        simulate(newTodoInput, 'keydown', {keyCode:simulate.VK_ENTER});
-    }
-
-    function typeOn(textField, text) {
-        textField.set('value', text);
-        textField.fireEvent("change");
-    }
-
-    var newTodoInput;
+    var $, list;
 
     beforeEach(function () {
-        newTodoInput = $('new-todo');
+        $ = jQuery;
+        list = $("#todo-list");
     });
 
     it("Should add a new task when ENTER pressed", function () {
 
-        // given
-        typeOn(newTodoInput, "Buy a milk");
-
         // when
-        pressEnter(newTodoInput);
+        addTask("Buy a milk");
 
         // then
-        var tasksCount = $$('#todo-list .view').length,
-            taskLabel = $$('#todo-list .view > label')[0].get('text'),
-            taskEditorValue = $$('#todo-list .edit')[0].get('value'),
-            taskCheckboxChecked = $$('#todo-list .view > input[type="checkbox"]')[0].get('checked'),
-            activeTasksCounter = $('todo-count').get('html');
-
-        expect(tasksCount).toBe(1);
-        expect(taskLabel).toBe('Buy a milk');
-        expect(taskEditorValue).toBe('Buy a milk');
-        expect(taskCheckboxChecked).toBe(false);
-        expect(activeTasksCounter).toBe("<strong>1</strong> item left.");
+        expect(list.find('li').length).toBe(1);
+        expect(list.find('.view > label')).toHaveText('Buy a milk');
+        expect(list.find('.view > input[type="checkbox"]')).not.toBeChecked();
+        expect(list.find('li > .edit')).toHaveValue('Buy a milk');
+        expect($('#todo-count')).toContainHtml("<strong>1</strong> item left.");
     });
 
     it("Should add more tasks than one", function () {
 
-        // given
-        typeOn(newTodoInput, "Buy a milk");
-        pressEnter(newTodoInput);
-        typeOn(newTodoInput, "Clean a floor");
-        pressEnter(newTodoInput);
-
         // when
-
+        addTask("Buy a milk");
+        addTask("Clean the floor");
 
         // then
-        var tasksCount = $$('#todo-list .view').length,
-            tasksLabels = $$('#todo-list .view > label').get('text');
-            tasksEditorsValues = $$('#todo-list .edit').get('value'),
-            tasksCheckboxsCheckeds = $$('#todo-list .view > input[type="checkbox"]').get('checked'),
-            activeTasksCounter = $('todo-count').get('html');
+        var labels = list.find('.view > label'),
+            editors = list.find('li > .edit');
 
-        expect(tasksCount).toBe(2);
-        expect(tasksLabels).toEqual(['Buy a milk', 'Clean a floor']);
-        expect(tasksEditorsValues).toEqual(['Buy a milk', 'Clean a floor']);
-        expect(tasksCheckboxsCheckeds).toEqual([false, false]);
-        expect(activeTasksCounter).toBe("<strong>2</strong> items left.");
+        expect(list.find('li').length).toBe(2);
+
+        expect(labels[0]).toHaveText('Buy a milk');
+        expect(labels[1]).toHaveText('Clean the floor');
+
+        expect(editors[0]).toHaveValue('Buy a milk');
+        expect(editors[1]).toHaveValue('Clean the floor');
+
+        expect($('#todo-count')).toContainHtml("<strong>2</strong> items left.");
     });
 
 });

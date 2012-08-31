@@ -21,7 +21,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         addTaskModel: function (taskModel) {
             this.getSourceItems().push(taskModel);
 
-            taskModel.registry = izi.bind().valueOf(taskModel, "completed").to(this.updateItemsCount, this);
+            taskModel.registry = izi.bind().valueOf(taskModel, "completed").to(this.updateItems, this);
             this.updateItems();
         },
 
@@ -59,6 +59,10 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         },
 
         updateItems: function () {
+            if (this.updatingPaused) {
+                return;
+            }
+
             var filterFn = this.filterFn,
                 sourceItems = this.getSourceItems();
 
@@ -118,12 +122,16 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         },
 
         toggleAllComplete: function () {
+            this.updatingPaused = true;
+
             org.izi.utils.forEach(this.getSourceItems(), function (item) {
                 if (!item.completed()) {
                     item.toggleCompleted();
                 }
             });
-            this.dispatchEvent("change", ["allCompleted"]);
+
+            this.updatingPaused = false;
+            this.updateItems();
         }
     }
 );

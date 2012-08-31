@@ -1,46 +1,54 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-  "http://www.w3.org/TR/html4/loose.dtd">
+        "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <title>UI Tests</title>
+    <title>UI Tests</title>
 
-  <link rel="shortcut icon" type="image/png" href="lib/jasmine-1.2.0/jasmine_favicon.png">
-  <link rel="stylesheet" type="text/css" href="tests/lib/jasmine-1.2.0/jasmine.css">
-  <script type="text/javascript" src="tests/lib/jasmine-1.2.0/jasmine.js"></script>
-  <script type="text/javascript" src="tests/lib/jasmine-1.2.0/jasmine-html.js"></script>
-  <script type="text/javascript" src="tests/lib/jasmine-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="tests/lib/jasmine-1.2.0/jasmine.css">
+    <script type="text/javascript" src="tests/lib/jasmine-1.2.0/jasmine.js"></script>
+    <script type="text/javascript" src="tests/lib/jasmine-1.2.0/jasmine-html.js"></script>
+    <script type="text/javascript" src="tests/lib/jasmine-ui.js"></script>
 
-  <!-- include source files here... -->
-  <script type="text/javascript" src="tests/ui/AddNewTaskSpec.js"></script>
+    <!-- include source files here... -->
+    <script type="text/javascript" src="tests/ui/AddNewTaskSpec.js"></script>
+    <script type="text/javascript" src="tests/ui/ToggleAllCompletedSpec.js"></script>
 
-  <script type="text/javascript">
-    (function() {
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
+    <script type="text/javascript">
+        (function () {
 
-      var htmlReporter = new jasmine.HtmlReporter();
+            jasmineui.inject("../../../assets/jquery.min.js",
+                             function () {
+                                 jQuery.noConflict();
+                             },
+                             "tests/lib/jasmine-jquery.js",
+                             "tests/lib/robot.js");
 
-      jasmineEnv.addReporter(htmlReporter);
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 1000;
 
-      jasmineEnv.specFilter = function(spec) {
-        return htmlReporter.specFilter(spec);
-      };
+            var htmlReporter = new jasmine.HtmlReporter();
 
-      var currentWindowOnload = window.onload;
+            jasmineEnv.addReporter(htmlReporter);
 
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
-        execJasmine();
-      };
+            jasmineEnv.specFilter = function (spec) {
+                return htmlReporter.specFilter(spec);
+            };
 
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
+            var currentWindowOnload = window.onload;
 
-    })();
-  </script>
+            window.onload = function () {
+                if (currentWindowOnload) {
+                    currentWindowOnload();
+                }
+                execJasmine();
+            };
+
+            function execJasmine() {
+                jasmineEnv.execute();
+            }
+
+        })();
+    </script>
 
 </head>
 
