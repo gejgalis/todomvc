@@ -290,7 +290,7 @@ org.izi.utils.getClassByName = (function (global) {
 
         currentPart = global;
 
-        parts.forEach(function (part) {
+        org.izi.utils.forEach(parts, function (part) {
             var nextPart = currentPart[part];
             if (nextPart === undefined) {
                 throw new org.izi.utils.ClassNotFound(classString);
@@ -783,7 +783,7 @@ org.izi.ioc.bean.PrototypeStrategy = function () {
 
         function findArgumentsDependencies(args) {
             var results = [];
-            args.forEach(function (arg) {
+            org.izi.utils.forEach(args, function (arg) {
                 if (arg && arg.isIziInjection) {
                     results.push(arg.findBeanBuilder(context));
                 }
@@ -888,7 +888,7 @@ org.izi.ioc.Config = function () {
         function visitDependencies(visitedBuilder) {
             var dependencies = visitedBuilder.getArgumentsDependencies(beansContext);
 
-            dependencies.forEach(function (dependency) {
+            org.izi.utils.forEach(dependencies, function (dependency) {
                 if (dependency === beanBuilder) {
                     throw new Error("Circular dependencies found. If it is possible try inject those dependencies by properties instead by arguments.");
                 }
@@ -907,14 +907,14 @@ org.izi.ioc.Config = function () {
     function initAllBeans(beansContext, beansBuilders) {
         var bean, beansToCreate = [];
 
-        beansBuilders.forEach(function (beanBuilder) {
+        org.izi.utils.forEach(beansBuilders, function (beanBuilder) {
             bean = initBean(beansContext, beanBuilder);
             if (bean) {
                 beansToCreate.push(beanBuilder);
             }
         });
 
-        beansToCreate.forEach(function (beanToCreate) {
+        org.izi.utils.forEach(beansToCreate, function (beanToCreate) {
             beanToCreate.create(beansContext);
         });
     }
@@ -978,7 +978,7 @@ org.izi.ioc.Config = function () {
     BeansContext.prototype.findBeanBuilder = function (beanIdOrType) {
         var foundFactory = null;
 
-        this.beansBuilders.forEach(function (factory) {
+        org.izi.utils.forEach(this.beansBuilders, function (factory) {
             if (factory.matches(beanIdOrType)) {
                 if (foundFactory) {
                     throw new Error("Ambiguous reference to bean by type. Please refer by id.");
@@ -3201,7 +3201,7 @@ org.izi.behavior.OnModel = function (config) {
         action.apply(scope);
     }
 
-    modelProperties.forEach(function (property) {
+    org.izi.utils.forEach(modelProperties, function (property) {
         bindings.push(izi.bind().valueOf(model, property).to(triggerAction));
     });
 
@@ -3209,7 +3209,7 @@ org.izi.behavior.OnModel = function (config) {
      * Stops observing the model
      */
     this.stopObserving = function () {
-        bindings.forEach(function (binding) {
+        org.izi.utils.forEach(bindings, function (binding) {
             binding.stopObserving();
         });
     };
