@@ -38,7 +38,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
 
         getActiveCount: function () {
             var count = 0;
-            org.izi.utils.forEach(this.getSourceItems(), function (item) {
+            this.getSourceItems().forEach(function (item) {
                 if (!item.completed()) {
                     count++;
                 }
@@ -66,7 +66,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
             var filterFn = this.filterFn,
                 sourceItems = this.getSourceItems();
 
-            org.izi.utils.forEach(sourceItems, function (item) {
+            sourceItems.forEach(function (item) {
                 if (!filterFn || filterFn(item) === true) {
                     item.displayed(true);
                 } else {
@@ -124,7 +124,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         toggleAllComplete: function () {
             this.updatingPaused = true;
 
-            org.izi.utils.forEach(this.getSourceItems(), function (item) {
+            this.getSourceItems().forEach(function (item) {
                 if (!item.completed()) {
                     item.toggleCompleted();
                 }

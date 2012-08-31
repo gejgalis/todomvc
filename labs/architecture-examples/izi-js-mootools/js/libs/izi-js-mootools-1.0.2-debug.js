@@ -177,7 +177,7 @@ izi.registerBehaviorImpl(org.izi.behavior.impl.MooTools);org.izi.binding.impl.mo
         var allStoppers = [];
 
         function stopObserving() {
-            org.izi.utils.forEach(allStoppers, function (stopper) {
+            allStoppers.forEach(function (stopper) {
                 stopper.stopObserving();
             })
         }
