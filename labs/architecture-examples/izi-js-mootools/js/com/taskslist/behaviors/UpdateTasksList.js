@@ -13,17 +13,28 @@ com.taskslist.behaviors.UpdateTasksList = new Class(
         perform: function () {
 
             var listView = this.listView,
-                /**
-                 * @type {com.taskslist.model.TasksListModel}
-                 */
-                    listModel = this.tasksListModel;
+                listModel = this.tasksListModel,
+                taskModels = listModel.items(),
+                taskViews = listView.getChildren(),
+                reachedIndex = -1;
 
-            listView.clearList();
+            taskViews.forEach(function (taskView, index) {
 
-            listModel.items().forEach(function (taskModel) {
-                var listItemView = new com.task.view.TaskView(listModel).setModel(taskModel);
-                listView.addTaskModelView(listItemView);
+                var taskModel = taskModels[index];
+
+                if (taskModel) {
+                    taskView.setModel(taskModel);
+                } else {
+                    taskView.getModel().displayed(false);
+                    taskView.destroy();
+                }
+
+                reachedIndex = index;
             });
+
+            for (var i = reachedIndex + 1; i < taskModels.length; i++) {
+                listView.addTaskView(new com.task.view.TaskView(listModel).setModel(taskModels[i]));
+            }
         }
     }
 );

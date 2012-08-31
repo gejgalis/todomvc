@@ -4,14 +4,14 @@
 com.taskslist.model.TasksListModel = izi.modelOf(
     {
         fields: [
-            {name: "items", initialValue: []}
+            {name: "items"}
         ],
 
         getSourceItems: function () {
-            if (!this.sourceItems) {
-                this.sourceItems = [];
+            if (!this.items()) {
+                this.items([]);
             }
-            return this.sourceItems;
+            return this.items();
         },
 
         /**
@@ -21,7 +21,8 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         addTaskModel: function (taskModel) {
             this.getSourceItems().push(taskModel);
 
-            izi.bind().valueOf(taskModel, "completed").to(this.updateItems, this);
+            taskModel.registry = izi.bind().valueOf(taskModel, "completed").to(this.updateItemsCount, this);
+            this.updateItems();
         },
 
         /**
@@ -29,6 +30,8 @@ com.taskslist.model.TasksListModel = izi.modelOf(
          * @param taskModel
          */
         removeTaskModel: function (taskModel) {
+            taskModel.registry.stopObserving();
+            delete taskModel.registry;
             org.izi.utils.removeItem(this.getSourceItems(), taskModel);
             this.updateItems();
         },
@@ -57,16 +60,17 @@ com.taskslist.model.TasksListModel = izi.modelOf(
 
         updateItems: function () {
             var filterFn = this.filterFn,
-                items = [],
                 sourceItems = this.getSourceItems();
 
             org.izi.utils.forEach(sourceItems, function (item) {
                 if (!filterFn || filterFn(item) === true) {
-                    items.push(item);
+                    item.displayed(true);
+                } else {
+                    item.displayed(false);
                 }
             });
 
-            this.items(items);
+            this.dispatchEvent("change", ["items"]);
             this.updateItemsCount();
         },
 
@@ -102,15 +106,15 @@ com.taskslist.model.TasksListModel = izi.modelOf(
             var me = this,
                 itemsToRemove = [];
 
-            org.izi.utils.forEach(this.getSourceItems(), function (item) {
+            this.getSourceItems().forEach(function (item) {
                 if (item.completed()) {
                     itemsToRemove.push(item);
                 }
             });
 
-            org.izi.utils.forEach(itemsToRemove, function (item) {
+            itemsToRemove.forEach(function (item) {
                 me.removeTaskModel(item);
-            })
+            });
         },
 
         toggleAllComplete: function () {

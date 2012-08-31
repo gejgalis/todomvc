@@ -8,6 +8,10 @@ com.taskslist.view.TasksListView = new Class(
         filterTasksList: izi.inject("com.taskslist.behaviors.FilterTasksList"),
         router: izi.inject("com.utils.Router"),
 
+        initialize: function () {
+            this.children = [];
+        },
+
         iziInit: function () {
 
             var updateList = this.updateList,
@@ -37,14 +41,13 @@ com.taskslist.view.TasksListView = new Class(
             izi.bind().valueOf(listModel, "allCompleted").to(toggleAllButton, "checked");
         },
 
-        addTaskModelView: function (listItemView) {
+        addTaskView: function (listItemView) {
+            this.children.push(listItemView);
             listItemView.getEl().inject($('todo-list'));
         },
 
-        clearList: function () {
-            $$("#todo-list > li").forEach(function (item) {
-                item.dispose();
-            })
+        getChildren: function () {
+            return this.children;
         },
 
         activeCountFormatter: function (value) {

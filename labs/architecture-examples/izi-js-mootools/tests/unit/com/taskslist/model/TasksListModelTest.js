@@ -47,14 +47,14 @@ describe("TasksListModel", function () {
         // given
         model.addTaskModel(activeTask);
         model.addTaskModel(completedTask);
-        expect(model.items().length).toBe(2);
 
         // when
         model.filterCompleted();
 
         // then
-        expect(model.items().length).toBe(1);
-        expect(model.items()[0]).toBe(completedTask);
+        expect(model.items().length).toBe(2);
+        expect(activeTask.displayed()).toBe(false);
+        expect(completedTask.displayed()).toBe(true);
         expect(model.getActiveCount()).toBe(1);
         expect(model.getAllCount()).toBe(2);
     });
@@ -64,14 +64,14 @@ describe("TasksListModel", function () {
         // given
         model.addTaskModel(activeTask);
         model.addTaskModel(completedTask);
-        expect(model.items().length).toBe(2);
 
         // when
         model.filterActive();
 
         // then
-        expect(model.items().length).toBe(1);
-        expect(model.items()[0]).toBe(activeTask);
+        expect(model.items().length).toBe(2);
+        expect(activeTask.displayed()).toBe(true);
+        expect(completedTask.displayed()).toBe(false);
         expect(model.getActiveCount()).toBe(1);
         expect(model.getAllCount()).toBe(2);
     });
@@ -81,27 +81,12 @@ describe("TasksListModel", function () {
         // given
         model.addTaskModel(completedTask);
         model.filterActive();
-        expect(model.items().length).toBe(0);
 
         // when
         model.addTaskModel(activeTask);
 
         // then
-        expect(model.items().length).toBe(1);
-    });
-
-    it("Should update active tasks when task is going to be completed", function () {
-
-        // given
-        model.addTaskModel(activeTask);
-        model.filterActive();
-
-
-        // when
-        activeTask.completed(true);
-
-        // then
-        expect(model.items().length).toBe(0);
+        expect(activeTask.displayed()).toBe(true);
     });
 
     it("Should clear completed tasks", function () {

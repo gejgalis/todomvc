@@ -9,6 +9,7 @@
     com.task.view.TaskView = new Class(
         {
             el: null,
+            taskModel: null,
 
             initialize: function (listModel) {
 
@@ -22,7 +23,12 @@
             },
 
             setModel: function (taskModel) {
+                if (this.taskModel === taskModel) {
+                    return;
+                }
+
                 this.destroy();
+                this.taskModel = taskModel;
 
                 var li = this.el,
                     registry = this.registry,
@@ -33,6 +39,7 @@
                     removeButton = li.getElement(".destroy")[0],
                     removeTask = new com.task.behaviors.RemoveTask(taskModel, listModel),
                     toggleCompleted = new com.task.behaviors.ToggleDone(taskModel),
+                    toggleDisplay = new com.task.behaviors.ToggleDisplay(li, taskModel),
                     switchToEdit = new com.task.behaviors.StartEditing(taskModel, editor),
                     switchToView = new com.task.behaviors.EndEditing(taskModel, removeTask);
 
@@ -44,6 +51,7 @@
                 // View Behaviors
                 registry.push(izi.perform(removeTask).when(izi.events.click()).on(removeButton));
                 registry.push(izi.perform(toggleCompleted).when(izi.events.click()).on(checkbox));
+                registry.push(izi.perform(toggleDisplay).whenChangeOf("displayed").on(taskModel));
                 registry.push(izi.perform(switchToEdit).when(izi.events.dblClick()).on(title));
 
                 // Editor Bindings
@@ -57,6 +65,10 @@
                 return this;
             },
 
+            getModel: function () {
+                return this.taskModel;
+            },
+
             destroy: function () {
                 var registry = this.registry;
 
@@ -65,7 +77,6 @@
                 });
 
                 registry.splice(0, registry.length);
-                console.log("Registry length", registry.length);
             }
         }
     );
