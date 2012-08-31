@@ -6,6 +6,7 @@
         // Utils
         router: new com.utils.Router(),
         textUtil: new com.utils.TextUtil(),
+        localStorageService: new com.utils.LocalStorageService("todos-izi-js-mootools"),
 
         // View
         newItemView: new com.taskslist.view.NewTaskView(),
@@ -21,7 +22,11 @@
         toggleFooterAndMain: new com.taskslist.behaviors.ToggleFooterAndMain(),
         toggleFilters: new com.taskslist.behaviors.ToggleFilters(),
         toggleClearCompleted: new com.taskslist.behaviors.ToggleClearCompleted(),
-        addNewTask: new com.taskslist.behaviors.AddNewTask()
-    });
+        addNewTask: new com.taskslist.behaviors.AddNewTask(),
+        retrieveTasks: new com.taskslist.behaviors.RetrieveTasks(),
+        saveTasks: new com.taskslist.behaviors.SaveTasks(),
 
+        // Service
+        tasksListService: new com.taskslist.service.TasksListService()
+    });
 })();

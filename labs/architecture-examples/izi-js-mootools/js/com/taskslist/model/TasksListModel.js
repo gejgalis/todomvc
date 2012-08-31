@@ -132,6 +132,21 @@ com.taskslist.model.TasksListModel = izi.modelOf(
 
             this.updatingPaused = false;
             this.updateItems();
+        },
+
+        fromRS: function (tasks) {
+            var me = this;
+            tasks.forEach(function (task) {
+                me.addTaskModel(new com.task.model.TaskModel().fromRS(task));
+            })
+        },
+
+        toRQ: function () {
+            var tasks = [];
+            this.items().forEach(function (taskModel) {
+                tasks.push(taskModel.toRQ())
+            })
+            return tasks;
         }
     }
 );

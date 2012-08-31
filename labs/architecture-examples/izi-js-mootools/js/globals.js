@@ -5,7 +5,8 @@ var com = {
     taskslist: {
         behaviors: {},
         model: {},
-        view: {}
+        view: {},
+        service: {}
     },
 
     task: {

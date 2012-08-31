@@ -1,6 +1,8 @@
 com.taskslist.view.TasksListView = new Class(
     {
         updateList: izi.inject("com.taskslist.behaviors.UpdateTasksList"),
+        retrieveTasks: izi.inject("com.taskslist.behaviors.RetrieveTasks"),
+        saveTasks: izi.inject("com.taskslist.behaviors.SaveTasks"),
         toggleFooterAndMain: izi.inject("com.taskslist.behaviors.ToggleFooterAndMain"),
         toggleClearCompleted: izi.inject("com.taskslist.behaviors.ToggleClearCompleted"),
         toggleFilters: izi.inject("com.taskslist.behaviors.ToggleFilters"),
@@ -15,6 +17,8 @@ com.taskslist.view.TasksListView = new Class(
         iziInit: function () {
 
             var updateList = this.updateList,
+                retrieveTasks = this.retrieveTasks,
+                saveTasks = this.saveTasks,
                 toggleFooterAndMain = this.toggleFooterAndMain,
                 toggleClearCompleted = this.toggleClearCompleted,
                 toggleFilters = this.toggleFilters,
@@ -26,8 +30,11 @@ com.taskslist.view.TasksListView = new Class(
                 toggleAllButton = $('toggle-all'),
                 router = this.router;
 
+            retrieveTasks.perform();
+
             // Behaviors
             izi.perform(updateList).whenChangeOf("items").on(listModel);
+            izi.perform(saveTasks).whenChangeOf("items").on(listModel);
             izi.perform(toggleFooterAndMain).whenChangeOf("allCount").on(listModel);
             izi.perform(toggleClearCompleted).whenChangeOf("allCount").on(listModel);
             izi.perform(toggleFilters).when("routeChange").on(router);

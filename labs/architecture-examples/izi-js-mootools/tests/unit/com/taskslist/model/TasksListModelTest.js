@@ -4,9 +4,8 @@ describe("TasksListModel", function () {
 
     beforeEach(function () {
         model = new com.taskslist.model.TasksListModel();
-        activeTask = new com.task.model.TaskModel();
-        completedTask = new com.task.model.TaskModel();
-        completedTask.completed(true);
+        activeTask = new com.task.model.TaskModel().fromRS({title: "Buy a milk", id: 1, completed: false});
+        completedTask = new com.task.model.TaskModel().fromRS({title: "Clean the floor", id: 2, completed: true});
     });
 
     it("Should get 0 items and empty collection at the beginning", function () {
@@ -101,5 +100,43 @@ describe("TasksListModel", function () {
         // then
         expect(model.items().length).toBe(1);
         expect(model.items()[0]).toBe(activeTask);
+    });
+
+    it("Should load model from JSON", function () {
+        // given
+        var tasks = [
+            {id: 1, title: "Buy a milk", completed: true},
+            {id: 2, title: "Clean the floor", completed: false},
+        ];
+
+        // when
+        model.fromRS(tasks);
+
+        // then
+        var item1 = model.items()[0];
+        var item2 = model.items()[1];
+
+        expect(item1.title()).toBe("Buy a milk");
+        expect(item1.completed()).toBe(true);
+        expect(item1.taskClass()).toBe("completed");
+        expect(item1.id()).toBe(1);
+
+        expect(item2.title()).toBe("Clean the floor");
+        expect(item2.completed()).toBe(false);
+        expect(item2.taskClass()).toBe("");
+        expect(item2.id()).toBe(2);
+    });
+
+    it("Should export model to JSON", function () {
+        // given
+        model.addTaskModel(activeTask);
+        model.addTaskModel(completedTask);
+
+        // when
+        var tasks = model.toRQ();
+
+        // then
+        expect(tasks[0]).toEqual({title: "Buy a milk", id: 1, completed: false});
+        expect(tasks[1]).toEqual({title: "Clean the floor", id: 2, completed: true});
     });
 });
