@@ -21,7 +21,7 @@ com.taskslist.model.TasksListModel = izi.modelOf(
         addTaskModel: function (taskModel) {
             this.getSourceItems().push(taskModel);
 
-            taskModel.registry = izi.bind().valueOf(taskModel, "completed").to(this.updateItems, this);
+            taskModel.registry = izi.perform(this.updateItems, this).whenChangeOf("completed").on(taskModel);
             this.updateItems();
         },
 

@@ -7,6 +7,11 @@ describeUi("Todo - Toggle all completed", "index.html", function () {
         list = $('#todo-list');
     });
 
+    afterEach(function () {
+        toggleAllCompleted();
+        clearCompleted();
+    });
+
     it("Should toggle all tasks as completed", function () {
 
         // given

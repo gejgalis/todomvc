@@ -38,11 +38,17 @@
         clickOn($('#toggle-all'));
     }
 
+    function clearCompleted() {
+        clickOn($('#clear-completed'));
+    }
+
     global.pressEnter = pressEnter;
     global.typeOn = typeOn;
     global.addTask = addTask;
     global.filterCompletedTasks = filterCompletedTasks;
     global.toggleAllCompleted = toggleAllCompleted;
+    global.clearCompleted = clearCompleted;
+
 
 }(this, jQuery);
 

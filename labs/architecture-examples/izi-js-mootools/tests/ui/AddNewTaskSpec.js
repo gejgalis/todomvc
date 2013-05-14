@@ -7,6 +7,11 @@ describeUi("Todo - Add new task", "index.html", function () {
         list = $("#todo-list");
     });
 
+    afterEach(function () {
+        toggleAllCompleted();
+        clearCompleted();
+    });
+
     it("Should add a new task when ENTER pressed", function () {
 
         // when
