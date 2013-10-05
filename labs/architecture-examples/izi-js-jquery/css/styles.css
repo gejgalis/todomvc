@@ -1,0 +1,8 @@
+
+.hidden {
+    visibility: hidden;
+}
+
+.striked {
+    text-decoration: line-through;
+}
