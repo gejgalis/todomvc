@@ -1,7 +1,3 @@
-/**
- * @class todo.models.NewTaskModel
- * @type {*}
- */
 todo.models.NewTaskModel = izi.modelOf(
     {
         fields: [

@@ -3,15 +3,14 @@
  */
 todo.models.TasksListModel = izi.modelOf(
     {
-        fields: [
-            {name: "items"}
-        ],
+        fields: ["items"],
+
+        init: function () {
+            this.sourceItems = [];
+        },
 
         getSourceItems: function () {
-            if (!this.items()) {
-                this.items([]);
-            }
-            return this.items();
+            return this.sourceItems;
         },
 
         /**
@@ -21,7 +20,7 @@ todo.models.TasksListModel = izi.modelOf(
         addTaskModel: function (taskModel) {
             this.getSourceItems().push(taskModel);
 
-            taskModel.registry = izi.perform(this.updateItems, this).whenChangeOf("taskClass").on(taskModel);
+            taskModel.registry = izi.perform(this.updateItems, this).whenChangeOf("title", "completed").on(taskModel);
             this.updateItems();
         },
 
@@ -64,17 +63,16 @@ todo.models.TasksListModel = izi.modelOf(
             }
 
             var filterFn = this.filterFn,
-                sourceItems = this.getSourceItems();
+                sourceItems = this.getSourceItems(),
+                items = [];
 
             sourceItems.forEach(function (item) {
                 if (!filterFn || filterFn(item) === true) {
-                    item.displayed(true);
-                } else {
-                    item.displayed(false);
+                    items.push(item);
                 }
             });
 
-            this.dispatchChange("items");
+            this.setItems(items);
             this.updateItemsCount();
         },
 
@@ -143,10 +141,25 @@ todo.models.TasksListModel = izi.modelOf(
 
         toRQ: function () {
             var tasks = [];
-            this.items().forEach(function (taskModel) {
+            this.getSourceItems().forEach(function (taskModel) {
                 tasks.push(taskModel.toRQ())
             });
             return tasks;
+        },
+
+        findById: function (id) {
+            var result = undefined;
+            this.getSourceItems().forEach(function (taskModel) {
+                if (taskModel.getId() === id) {
+                    result = taskModel;
+                    return false;
+                }
+            });
+            return result;
+        },
+
+        equals: function (val1, val2) {
+            return val1 === val2;
         }
     }
 );

@@ -1,5 +1,5 @@
 /*
- * izi-js-jquery-1.5.0-beta5 20131011-1517
+ * izi-js-jquery-1.5.0-beta6-SNAPSHOT 20131012-1720
  *
  * Copyright (C) 2012 by izi-js contributors
  *
@@ -60,9 +60,18 @@ org.izi.behavior.impl.jQuery = {
 
     defaultPerformFunction: "perform",
 
-    observeWidget: function (widget, eventConfig, action, scope, options) {
+    observeWidget: function (widgetOrDelegation, eventConfig, action, scope, options) {
 
-        var $widget = widget instanceof jQuery ? widget : $(widget);
+        var widget, $widget, delegatedSelector;
+
+        if (org.izi.utils.typeOf(widgetOrDelegation) === "Array") {
+            widget = widgetOrDelegation[0];
+            delegatedSelector = widgetOrDelegation[1];
+        } else {
+            widget = widgetOrDelegation;
+        }
+
+        $widget = widget instanceof jQuery ? widget : $(widget);
 
         function eventHandler(event) {
             if (!event) {
@@ -84,9 +93,18 @@ org.izi.behavior.impl.jQuery = {
 
         var eventType = eventConfig.getEventType();
 
-        $widget.on(eventType, eventHandler);
+        if (delegatedSelector) {
+            $widget.on(eventType, delegatedSelector, eventHandler);
+        } else {
+            $widget.on(eventType, eventHandler);
+        }
+
         return function () {
-            $widget.off(eventType, eventHandler);
+            if (delegatedSelector) {
+                $widget.off(eventType, delegatedSelector, eventHandler);
+            } else {
+                $widget.off(eventType, eventHandler);
+            }
         }
     },
 
@@ -370,6 +388,7 @@ izi.registerQueueImpl(org.izi.queue.impl.jQuery);org.izi.binding.impl.jquery = {
 
     valueWriters: [
         org.izi.binding.impl.jquery.writeSelectValue,
+        org.izi.binding.impl.jquery.writeVal,
         org.izi.binding.impl.writeByFunction,
         org.izi.binding.impl.writeByCapitalizedSetter,
         org.izi.binding.impl.writeToOwnedProperty,

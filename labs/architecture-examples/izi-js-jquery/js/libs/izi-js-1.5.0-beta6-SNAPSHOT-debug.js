@@ -1,5 +1,5 @@
 /*
- * izi-js-1.5.0-beta5 2013-10-11 15:17
+ * izi-js-1.5.0-beta6-SNAPSHOT 2013-10-12 17:22
  *
  * Copyright (C) 2012 by izi-js contributors
  *
@@ -3666,11 +3666,11 @@ org.izi.events.IziEvents = {
      * </code>
      *
      * @member org.izi.behavior.WhenWidget
-     * @sanity izi.sanityOf("on()").args(izi.arg("widget").ofObject()).args(izi.arg("wrapper").ofObject().havingProperty("delegatedIn")).check(arguments);
+     * @sanity izi.sanityOf("on()").args(izi.arg("").ofArray()).args(izi.arg("widget").ofObject()).args(izi.arg("wrapper").ofObject().havingProperty("delegatedIn")).check(arguments);
      * @param {Object} widget Widget that should be observed.
      * @return {org.izi.behavior.OnWidget}
      */
-    WhenWidget.prototype.on = function (widget) {izi.sanityOf("on()").args(izi.arg("widget").ofObject()).args(izi.arg("wrapper").ofObject().havingProperty("delegatedIn")).check(arguments);
+    WhenWidget.prototype.on = function (widget) {izi.sanityOf("on()").args(izi.arg("").ofArray()).args(izi.arg("widget").ofObject()).args(izi.arg("wrapper").ofObject().havingProperty("delegatedIn")).check(arguments);
         return new org.izi.behavior.OnWidget(this.config.withDispatcher(widget));
     };
 
@@ -3887,9 +3887,9 @@ org.izi.behavior.Perform = function () {
      *
      *     izi.perform(registrar).on(target);
      *
-     * @param {Object} target
+     * @param {Object|Array} target
      */
-    Perform.prototype.on = function (target) {izi.sanityOf("on()").args(izi.arg().ofObject()).check(arguments);
+    Perform.prototype.on = function (target) {izi.sanityOf("on()").args(izi.arg().of("Object|Array")).check(arguments);
         var registrar = this.config.action;
 
         if (org.izi.utils.typeOf(registrar.register) === 'Function') {
@@ -6042,7 +6042,7 @@ izi.registerBindingImpl = function (impl) {izi.sanityOf("registerBindingImpl()")
  * doesn't provide 'observable' model.
  *
  * @sanity izi.sanityOf("izi.modelOf()").args(izi.arg("config").ofObject().havingProperty("fields")).check(arguments);izi.sanityOf("config.fields").args(izi.varargOf(izi.arg("field").ofObject().havingProperty("name"), izi.arg("fieldName").ofString())).check(config.fields);
- * @param config Model fields configuration. It must contain <strong>fields</strong> array of fields objects.
+ * @param {Object} config Model fields configuration. It must contain <strong>fields</strong> array of fields objects.
  * @param {Array} config.fields Configuration of model field
  * @param {String} config.fields.name Field name
  * @param {String} config.fields.defaultValue Initial value of field after creating empty model

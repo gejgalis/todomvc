@@ -16,7 +16,7 @@ todo.behaviors.AddNewTask = Class.create(
 
         createNewTaskModel: function () {
             var enteredTitle = this.getEnteredTitle();
-            return new todo.models.TaskModel().title(enteredTitle);
+            return new todo.models.TaskModel().title(enteredTitle).id(todo.utils.uuid());
         },
 
         getEnteredTitle: function () {

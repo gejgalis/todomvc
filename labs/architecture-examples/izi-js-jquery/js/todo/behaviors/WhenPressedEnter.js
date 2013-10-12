@@ -7,21 +7,34 @@ todo.behaviors.WhenPressedEnter = Class.create(
 
             this._performBehavior = function (event) {
                 if (event.keyCode === me.ENTER_KEY) {
-                    me.behavior.perform();
+                    if (typeof me.behavior === "function") {
+                        me.behavior.apply(me.scope, arguments);
+                    } else {
+                        me.behavior.perform();
+                    }
                 }
             }
         },
 
         register: function (target) {
-            target.on("keydown", this._performBehavior);
+            if (target instanceof jQuery) {
+                target.on("keydown", this._performBehavior);
+            } else {
+                target[0].on("keydown", target[1], this._performBehavior);
+            }
         },
 
         unregister: function (target) {
-            target.off("keydown", this._performBehavior);
+            if (target instanceof jQuery) {
+                target.off("keydown", this._performBehavior);
+            } else {
+                target[0].off("keydown", target[1], this._performBehavior);
+            }
         },
 
-        then: function(behavior) {
+        then: function(behavior, scope) {
             this.behavior = behavior;
+            this.scope = scope;
             return this;
         }
     }

@@ -4,24 +4,17 @@ todo.models.TaskModel = izi.modelOf(
             {name: "id"},
             {name: "title", initialValue: ""},
             {name: "completed", initialValue: false},
-            {name: "displayed", initialValue: false},
-            {name: "taskClass", initialValue: ""}
+            {name: "displayed", initialValue: false}
         ],
 
         toggleCompleted: function () {
             this.completed(!this.completed());
-            this.updateTaskClass();
-        },
-
-        updateTaskClass: function () {
-            this.taskClass(this.completed() ? "completed" : "");
         },
 
         fromRS: function (task) {
             this.id(task.id);
             this.title(task.title);
             this.completed(task.completed);
-            this.updateTaskClass();
             return this;
         },
 

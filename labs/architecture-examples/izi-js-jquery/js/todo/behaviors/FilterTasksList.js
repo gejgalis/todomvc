@@ -13,7 +13,6 @@ todo.behaviors.FilterTasksList = Class.create(
         },
 
         perform: function (event) {
-            console.log(event.route);
             this.filterMap[event.route].apply(this.tasksListModel);
         }
     }

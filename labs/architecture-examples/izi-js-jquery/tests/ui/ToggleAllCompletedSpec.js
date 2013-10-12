@@ -18,13 +18,13 @@ describeUi("Todo - Toggle all completed", "index.html", function () {
         addTask("Buy a milk");
         addTask("Clear the floor");
         filterCompletedTasks();
-        expect(list.find("li")).toBeHidden();
+        expect(list.find("li").length).toBe(0);
 
         // when
         toggleAllCompleted();
 
         // then
-        expect(list.find("li")).toBeVisible();
+        expect(list.find("li").length).toBe(2);
     });
 
 });
