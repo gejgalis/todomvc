@@ -1,5 +1,5 @@
 /*
- * izi-js-jquery-1.5.0-beta2 20131003-1627
+ * izi-js-jquery-1.5.0-beta5 20131011-1517
  *
  * Copyright (C) 2012 by izi-js contributors
  *
@@ -62,6 +62,7 @@ org.izi.behavior.impl.jQuery = {
 
     observeWidget: function (widget, eventConfig, action, scope, options) {
 
+        var $widget = widget instanceof jQuery ? widget : $(widget);
 
         function eventHandler(event) {
             if (!event) {
@@ -82,9 +83,10 @@ org.izi.behavior.impl.jQuery = {
         }
 
         var eventType = eventConfig.getEventType();
-        jQuery(widget).on(eventType, eventHandler);
+
+        $widget.on(eventType, eventHandler);
         return function () {
-            jQuery(widget).off(eventType, eventHandler);
+            $widget.off(eventType, eventHandler);
         }
     },
 

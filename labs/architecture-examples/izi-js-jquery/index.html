@@ -5,7 +5,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>izi-js (MooTools) • TodoMVC</title>
+    <title>izi-js (jQuery) • TodoMVC</title>
     <link rel="stylesheet" href="../../../assets/base.css">
     <!-- CSS overrides - remove if you don't need it -->
     <link rel="stylesheet" href="css/app.css">
@@ -72,10 +72,44 @@
 
 <!--Libraries-->
 <script src="js/libs/jquery-1.10.1.js"></script>
+<script src="js/libs/Class-0.0.2.js"></script>
 
-<script src="js/libs/izi-js-1.5.0-beta2-debug.js"></script>
-<script src="js/libs/izi-js-jquery-1.5.0-beta2-debug.js"></script>
+<script src="js/todo/utils/selectRange.js"></script>
 
+<script src="js/libs/izi-js-1.5.0-beta5-debug.js"></script>
+<script src="js/libs/izi-js-jquery-1.5.0-beta5-debug.js"></script>
+
+<script src="js/globals.js"></script>
+
+<script src="js/todo/utils/Router.js"></script>
+<script src="js/todo/utils/text.js"></script>
+
+<script src="js/todo/models/NewTaskModel.js"></script>
+<script src="js/todo/models/TaskModel.js"></script>
+<script src="js/todo/models/TasksListModel.js"></script>
+
+<script src="js/todo/services/LocalStorageService.js"></script>
+<script src="js/todo/services/TasksService.js"></script>
+
+<script src="js/todo/views/NewTaskView.js"></script>
+<script src="js/todo/views/TasksListView.js"></script>
+<script src="js/todo/views/TaskView.js"></script>
+<script src="js/todo/views/FilterView.js"></script>
+<script src="js/todo/views/FooterAndMainView.js"></script>
+
+<script src="js/todo/behaviors/AddNewTask.js"></script>
+<script src="js/todo/behaviors/WhenPressedEnter.js"></script>
+<script src="js/todo/behaviors/RetrieveTasks.js"></script>
+<script src="js/todo/behaviors/SaveTasks.js"></script>
+<script src="js/todo/behaviors/RemoveTask.js"></script>
+<script src="js/todo/behaviors/ToggleDone.js"></script>
+<script src="js/todo/behaviors/StartEditing.js"></script>
+<script src="js/todo/behaviors/EndEditing.js"></script>
+<script src="js/todo/behaviors/ToggleDisplay.js"></script>
+<script src="js/todo/behaviors/ToggleClearCompleted.js"></script>
+<script src="js/todo/behaviors/ToggleFilters.js"></script>
+<script src="js/todo/behaviors/FilterTasksList.js"></script>
+<script src="js/todo/behaviors/ToggleFooterAndMain.js"></script>
 
 
 <script src="../../../assets/base.js"></script>

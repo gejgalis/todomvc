@@ -1,5 +1,5 @@
 /*
- * izi-js-1.5.0-beta2 2013-10-03 16:27
+ * izi-js-1.5.0-beta5 2013-10-11 15:17
  *
  * Copyright (C) 2012 by izi-js contributors
  *
@@ -320,14 +320,14 @@ org.izi.utils.getCallerLineProvider = function (stackOffset) {
             return "Line numbers are available only in debug version of izi-js";
         }
     }
-    var error = new Error();
+    var error = Error();
 
     return function getCallerLine() {
         if (error.stack) {
             // WebKit / FireFox / Opera
             var callStack = error.stack.split("\n");
             var index = navigator.userAgent.indexOf("WebKit") > -1
-                ? 2 + stackOffset // Chrome
+                ? 3 + stackOffset // Chrome
                 : 1 + stackOffset; // Firefox and Opera
             return callStack[index];
         } else {
@@ -486,7 +486,13 @@ org.izi.utils.log = function (global) {
     var logImpl;
     if ("console" in global) {
         logImpl = function () {
-            global.console.log.apply(global.console, arguments);
+            if (global.console.log.apply) {
+                global.console.log.apply(global.console, arguments);
+            } else {
+                // IE :)
+                global.console.log(Array.prototype.slice.call(arguments));
+            }
+
         }
     } else {
         logImpl = function () {
@@ -534,7 +540,7 @@ org.izi.model.Observable = function () {
     var forEach = org.izi.utils.forEach;
 
     function Observable() {
-        this.listeners = [];
+        this.listeners = {};
     }
 
     Observable.prototype = {
@@ -545,16 +551,15 @@ org.izi.model.Observable = function () {
          * @member org.izi.model.Observable
          * @noSanity
          * @param {String} type
-         * @return {Object[]} array of objects containing fields: 'type' and 'fn'
+         * @return {Object[]} array of objects containing fields: 'fn' and 'scope'
          */
         findListeners: function (type) {
-            var result = [];
-            forEach(this.listeners, function (listener) {
-                if (listener.type === type) {
-                    result.push(listener);
-                }
-            });
-            return result;
+
+            if (this.listeners[type] === undefined) {
+                this.listeners[type] = [];
+            }
+
+            return this.listeners[type];
         },
 
         /**
@@ -566,7 +571,7 @@ org.izi.model.Observable = function () {
         dispatchEvent: function (type, args) {
             var me = this;
             forEach(this.findListeners(type), function (listener) {
-                listener.fn.apply(listener.scope || me, args);
+                listener.fn.apply(listener.scope || me, args || []);
             })
         },
 
@@ -578,7 +583,7 @@ org.izi.model.Observable = function () {
          * @param {Object} [scope]
          */
         addListener: function (type, fn, scope) {
-            this.listeners.push({type: type, fn: fn, scope: scope});
+            this.findListeners(type).push({fn: fn, scope: scope});
         },
 
         /**
@@ -588,10 +593,11 @@ org.izi.model.Observable = function () {
          * @param {Function} fn
          */
         removeListener: function (type, fn) {
-            var me = this;
-            forEach(this.findListeners(type), function (listener) {
+            var listeners = this.findListeners(type);
+
+            forEach(listeners, function (listener) {
                 if (listener.fn === fn) {
-                    org.izi.utils.removeItem(me.listeners, listener);
+                    org.izi.utils.removeItem(listeners, listener);
                 }
             });
         }
@@ -607,19 +613,43 @@ org.izi.model.Model = function () {
     var forEach = org.izi.utils.forEach;
 
     function implementGetterAndSetter(Class, name) {
-        Class.prototype[name] = function () {
+        var capitalizedName = org.izi.utils.capitalize(name),
+            getter = "get" + capitalizedName,
+            setter = "set" + capitalizedName;
+
+        Class.prototype[name] = function (value) {
             if (arguments.length === 0) {
-                return this.get(name);
+                return this[getter]();
             } else if (arguments.length === 1) {
-                return this.set(name, arguments[0]);
+                return this[setter](value);
             } else {
                 throw new Error("Too many arguments. Setter function requires exactly one argument");
             }
-        }
+        };
+
+        Class.prototype[getter] = function () {
+            return this.get(name);
+        };
+
+        Class.prototype[setter] = function (value) {
+            return this.set(name, value);
+        };
+    }
+
+    function createInitialData(config) {
+        var data = {};
+
+        forEach(config.fields, function (field) {
+            if (org.izi.utils.typeOf(field) === "Object") {
+                data[field.name] = field.defaultValue || field.initialValue;
+            }
+        });
+        return data;
     }
 
     function Model() {
         Model.upper.constructor.apply(this, arguments);
+        this.init();
     }
 
     org.izi.utils.inherit(Model, org.izi.model.Observable);
@@ -630,6 +660,15 @@ org.izi.model.Model = function () {
      * @type {Boolean}
      */
     Model.prototype.isIziModel = true;
+
+    /**
+     * Abstract init method called from constructor
+     * @member org.izi.model.Model
+     * @protected
+     */
+    Model.prototype.init = function () {
+
+    };
 
     /**
      * Retrieves value for given property name
@@ -644,18 +683,33 @@ org.izi.model.Model = function () {
     /**
      * Updates value for given property name and returns own model instance (this).
      * @member org.izi.model.Model
-     * @param {String} propertyName
-     * @param {*} value
+     * @param {String|Object} propertyName or map of pairs property=>value
+     * @param {*} [value]
      * @return {org.izi.model.Model}
      */
-    Model.prototype.set = function (propertyName, value) {izi.sanityOf("set()").args(izi.arg().ofString(),izi.arg().of("*")).check(arguments);
+    Model.prototype.set = function (propertyName, value) {izi.sanityOf("set()").args(izi.arg().of("String|Object")).args(izi.arg().of("String|Object"),izi.arg().of("*")).check(arguments);
+
+        if (arguments.length === 1 && org.izi.utils.typeOf(propertyName) === "Object") {
+            for (var prop in propertyName) {
+                if (propertyName.hasOwnProperty(prop)) {
+                    this.set(prop, propertyName[prop]);
+                }
+            }
+            return this;
+        }
+
         var currentValue = this.data[propertyName];
 
         if (!this.equals(currentValue, value)) {
             this.data[propertyName] = value;
-            this.dispatchEvent("change", [propertyName]);
+            this.dispatchChange(propertyName, value, currentValue);
         }
         return this;
+    };
+
+    Model.prototype.dispatchChange = function (propertyName, newValue, oldValue) {
+        this.dispatchEvent(propertyName + "Change", [newValue, oldValue]);
+        this.dispatchEvent("change", [propertyName, newValue, oldValue]);
     };
 
     Model.prototype.equals = function (val1, val2) {
@@ -671,7 +725,7 @@ org.izi.model.Model = function () {
             return false;
         }
 
-        for (var i=0; i<arr1.length; i++) {
+        for (var i = 0; i < arr1.length; i++) {
             if (arr1[i] !== arr2[i]) {
                 return false;
             }
@@ -687,25 +741,18 @@ org.izi.model.Model = function () {
      */
     Model.define = function (config) {
 
-        function createInitialData() {
-            var data = {};
-
-            forEach(config.fields, function (field) {
-                data[field.name] = field.initialValue;
-            });
-            return data;
-        }
-
         var Class = function () {
-            Class._super.apply(this);
-            this.data = createInitialData();
+            Class.upper.constructor.apply(this);
+            this.data = createInitialData(config);
         };
-        Class.prototype = new Model();
-        Class.prototype.constructor = Class;
-        Class._super = Model;
+        org.izi.utils.inherit(Class, Model);
 
         forEach(config.fields, function (field) {
-            implementGetterAndSetter(Class, field.name);
+            var fieldName = org.izi.utils.typeOf(field) === "String"
+                ? field
+                : field.name;
+
+            implementGetterAndSetter(Class, fieldName);
         });
 
         for (var key in config) {
@@ -3691,12 +3738,18 @@ org.izi.behavior.OnWidget = function () {
             org.izi.utils.forEach(events, function (eventConfig) {
 
                 if (eventConfig.isKeyboardEventConfig) {
-
-                    me.observers.push(impl.observeKeyStroke(widget, eventConfig, action, scope, eventOptions));
+                    if (widget.iziObserveKeyStroke) {
+                        me.observers.push(widget.iziObserveKeyStroke(eventConfig, action, scope, eventOptions));
+                    } else {
+                        me.observers.push(impl.observeKeyStroke(widget, eventConfig, action, scope, eventOptions));
+                    }
 
                 } else if (eventConfig.isEventConfig) {
-
-                    me.observers.push(impl.observeWidget(widget, eventConfig, action, scope, eventOptions));
+                    if (widget.iziObserveWidget) {
+                        me.observers.push(widget.iziObserveWidget(eventConfig, action, scope, eventOptions));
+                    } else {
+                        me.observers.push(impl.observeWidget(widget, eventConfig, action, scope, eventOptions));
+                    }
                 } else {
                     throw new Error("Incorrect event type. Expecting izi.event.* or 'eventType'");
                 }
@@ -4715,20 +4768,25 @@ org.izi.binding.impl.writeToFunction = function () {
 
     function observer(source, sourceProperty, target, targetProperty, transferValueFn) {
 
-        function change(modifiedProperty) {
-            if (modifiedProperty !== sourceProperty) {
-                return;
-            }
-            transferValueFn();
-        }
+        var propertyChange = sourceProperty + "Change";
 
-        function stopObserving() {
-            source.removeListener("change", change);
-        }
+        source.addListener(propertyChange, transferValueFn);
 
-        source.addListener("change", change);
+        return function stopObserving() {
+            source.removeListener(propertyChange, transferValueFn);
+        };
+    }
 
-        return stopObserving;
+    return org.izi.binding.impl.createObserver(matcher, observer);
+}();org.izi.binding.impl.customPropertyObserver = function () {
+
+    function matcher(source, sourceProperty, target, targetProperty, transferValueFn) {
+        return source.iziObserveProperty;
+    }
+
+    function observer(source, sourceProperty, target, targetProperty, transferValueFn) {
+
+        return source.iziObserveProperty(sourceProperty, transferValueFn);
     }
 
     return org.izi.binding.impl.createObserver(matcher, observer);
@@ -4740,7 +4798,8 @@ org.izi.binding.impl.writeToFunction = function () {
  */
 org.izi.binding.register = function (impl) {
     var nestedImpl = {
-        changeObservers: [org.izi.binding.impl.nested.nestedObserver].concat(impl.changeObservers),
+        changeObservers: [org.izi.binding.impl.nested.nestedObserver,
+                          org.izi.binding.impl.customPropertyObserver].concat(impl.changeObservers),
         valueReaders: [org.izi.binding.impl.nested.nestedReader].concat(impl.valueReaders),
         valueWriters: [org.izi.binding.impl.nested.nestedWriter].concat(impl.valueWriters)
     };
@@ -5982,14 +6041,14 @@ izi.registerBindingImpl = function (impl) {izi.sanityOf("registerBindingImpl()")
  * Creates class of izi model. Use this model in your project for data binding only when your framework
  * doesn't provide 'observable' model.
  *
- * @sanity izi.sanityOf("izi.modelOf()").args(izi.arg("config").ofObject().havingProperty("fields")).check(arguments);izi.sanityOf("config.fields").args(izi.varargOf(izi.arg("field").ofObject().havingProperty("name"))).check(config.fields);
+ * @sanity izi.sanityOf("izi.modelOf()").args(izi.arg("config").ofObject().havingProperty("fields")).check(arguments);izi.sanityOf("config.fields").args(izi.varargOf(izi.arg("field").ofObject().havingProperty("name"), izi.arg("fieldName").ofString())).check(config.fields);
  * @param config Model fields configuration. It must contain <strong>fields</strong> array of fields objects.
  * @param {Array} config.fields Configuration of model field
  * @param {String} config.fields.name Field name
- * @param {String} config.fields.initialValue Initial value of field after creating empty model
+ * @param {String} config.fields.defaultValue Initial value of field after creating empty model
  * @return {*}
  */
-izi.modelOf = function (config) {izi.sanityOf("izi.modelOf()").args(izi.arg("config").ofObject().havingProperty("fields")).check(arguments);izi.sanityOf("config.fields").args(izi.varargOf(izi.arg("field").ofObject().havingProperty("name"))).check(config.fields);
+izi.modelOf = function (config) {izi.sanityOf("izi.modelOf()").args(izi.arg("config").ofObject().havingProperty("fields")).check(arguments);izi.sanityOf("config.fields").args(izi.varargOf(izi.arg("field").ofObject().havingProperty("name"), izi.arg("fieldName").ofString())).check(config.fields);
     return org.izi.model.Model.define(config);
 };
 
