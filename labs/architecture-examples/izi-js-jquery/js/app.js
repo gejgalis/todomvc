@@ -8,21 +8,22 @@
             tasksListModel: new todo.models.TasksListModel(),
 
             // Views
-            filterView: new todo.views.FilterView(),
             newTaskView: new todo.views.NewTaskView(),
             tasksListView: new todo.views.TasksListView(),
             taskView: new todo.views.TaskView(),
-            footerAndMain: new todo.views.FooterAndMainView(),
+            footerAndMain: new todo.views.FooterView(),
+            mainView: new todo.views.MainView(),
 
             // Behaviors
+            mainBehaviors: new todo.behaviors.MainBehaviors(),
             addNewTask: new todo.behaviors.AddNewTask(),
-            whenPressedEnter: izi.protoOf(todo.behaviors.WhenPressedEnter),
-            toggleFilters: new todo.behaviors.ToggleFilters(),
-            toggleClearCompleted: new todo.behaviors.ToggleClearCompleted(),
-            filterTasksList: new todo.behaviors.FilterTasksList(),
-            toggleFooterAndMain: new todo.behaviors.ToggleFooterAndMain(),
-            tasksBehaviors: new todo.behaviors.TaskBehaviors(),
             tasksListBehaviors: new todo.behaviors.TasksListBehaviors(),
+            filterTasksList: new todo.behaviors.FilterTasksList(),
+            taskBehaviors: new todo.behaviors.TaskBehaviors(),
+            footerBehaviors: new todo.behaviors.FooterBehaviors(),
+
+            whenPressedEnter: izi.protoOf(todo.behaviors.WhenPressedEnter),
+            showHideWhenNoTasks: izi.protoOf(todo.behaviors.ShowHideWhenNoTasks),
 
             // Services
             localStorageService: new todo.services.LocalStorageService("todos-izi-js-jquery"),
@@ -30,7 +31,8 @@
 
             // Utils
             router: new todo.utils.Router(),
-            taskFinder: new todo.utils.TaskFinder()
+            taskFinder: new todo.utils.TaskFinder(),
+            uuidGenerator: new todo.utils.UuidGenerator()
         }
     );
 })();

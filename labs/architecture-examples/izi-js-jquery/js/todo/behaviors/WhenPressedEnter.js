@@ -3,17 +3,8 @@ todo.behaviors.WhenPressedEnter = Class.create(
         ENTER_KEY: 13,
 
         init: function () {
-            var me = this;
-
-            this._performBehavior = function (event) {
-                if (event.keyCode === me.ENTER_KEY) {
-                    if (typeof me.behavior === "function") {
-                        me.behavior.apply(me.scope, arguments);
-                    } else {
-                        me.behavior.perform();
-                    }
-                }
-            }
+            // Fixes (this) scope of event handler
+            this._performBehavior = $.proxy(this._performBehavior, this);
         },
 
         register: function (target) {
@@ -32,10 +23,22 @@ todo.behaviors.WhenPressedEnter = Class.create(
             }
         },
 
-        then: function(behavior, scope) {
+        then: function (behavior, scope) {
             this.behavior = behavior;
             this.scope = scope;
             return this;
+        },
+
+        _performBehavior: function (event) {
+            if (event.keyCode !== this.ENTER_KEY) {
+                return;
+            }
+
+            if (typeof this.behavior === "function") {
+                this.behavior.apply(this.scope, arguments);
+            } else {
+                this.behavior.perform();
+            }
         }
     }
 );

@@ -1,26 +1,27 @@
 todo.behaviors.AddNewTask = Class.create(
     {
         newTaskModel: izi.inject("todo.models.NewTaskModel"),
-        tasksListModel: izi.inject("todo.models.TasksListModel"),
+        listModel: izi.inject("todo.models.TasksListModel"),
+        uuidGenerator: izi.inject("todo.utils.UuidGenerator"),
 
         perform: function () {
 
             var newTaskModel = this.newTaskModel,
-                listModel = this.tasksListModel;
+                listModel = this.listModel;
 
             if (this.getEnteredTitle() !== "") {
-                listModel.addTaskModel(this.createNewTaskModel());
+                listModel.addTask(this.createNewTaskModel());
                 newTaskModel.clear();
             }
         },
 
         createNewTaskModel: function () {
             var enteredTitle = this.getEnteredTitle();
-            return new todo.models.TaskModel().title(enteredTitle).id(todo.utils.uuid());
+            return new todo.models.TaskModel().title(enteredTitle).id(this.uuidGenerator.uuid());
         },
 
         getEnteredTitle: function () {
-            return todo.utils.text.trim(this.newTaskModel.title());
+            return $.trim(this.newTaskModel.title());
         }
     }
 );

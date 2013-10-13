@@ -3,41 +3,37 @@
  */
 todo.models.TasksListModel = izi.modelOf(
     {
-        fields: ["items"],
+        fields: ["items", "sourceItems"],
 
         init: function () {
-            this.sourceItems = [];
-        },
-
-        getSourceItems: function () {
-            return this.sourceItems;
+            this.items([]);
+            this.sourceItems([]);
         },
 
         /**
          * @member todo.models.TasksListModel
-         * @param taskModel
+         * @param {todo.models.TaskModel} task
          */
-        addTaskModel: function (taskModel) {
-            this.getSourceItems().push(taskModel);
-
-            taskModel.registry = izi.perform(this.updateItems, this).whenChangeOf("title", "completed").on(taskModel);
+        addTask: function (task) {
+            this.sourceItems().push(task);
+            task.observer = izi.perform(this.updateItems, this).whenChangeOf("title", "completed").on(task);
             this.updateItems();
         },
 
         /**
          * @member todo.models.TasksListModel
-         * @param taskModel
+         * @param {todo.models.TaskModel} task
          */
-        removeTaskModel: function (taskModel) {
-            taskModel.registry.stopObserving();
-            delete taskModel.registry;
-            org.izi.utils.removeItem(this.getSourceItems(), taskModel);
+        removeTask: function (task) {
+            task.observer.stopObserving();
+            delete task.observer;
+            org.izi.utils.removeItem(this.sourceItems(), task);
             this.updateItems();
         },
 
         getActiveCount: function () {
             var count = 0;
-            this.getSourceItems().forEach(function (item) {
+            this.sourceItems().forEach(function (item) {
                 if (!item.completed()) {
                     count++;
                 }
@@ -50,7 +46,7 @@ todo.models.TasksListModel = izi.modelOf(
         },
 
         getAllCount: function () {
-            return this.getSourceItems().length;
+            return this.sourceItems().length;
         },
 
         getAllCompleted: function () {
@@ -63,16 +59,15 @@ todo.models.TasksListModel = izi.modelOf(
             }
 
             var filterFn = this.filterFn,
-                sourceItems = this.getSourceItems(),
                 items = [];
 
-            sourceItems.forEach(function (item) {
+            this.sourceItems().forEach(function (item) {
                 if (!filterFn || filterFn(item) === true) {
                     items.push(item);
                 }
             });
 
-            this.setItems(items);
+            this.items(items);
             this.updateItemsCount();
         },
 
@@ -108,21 +103,21 @@ todo.models.TasksListModel = izi.modelOf(
             var me = this,
                 itemsToRemove = [];
 
-            this.getSourceItems().forEach(function (item) {
+            this.sourceItems().forEach(function (item) {
                 if (item.completed()) {
                     itemsToRemove.push(item);
                 }
             });
 
             itemsToRemove.forEach(function (item) {
-                me.removeTaskModel(item);
+                me.removeTask(item);
             });
         },
 
         toggleAllComplete: function () {
             this.updatingPaused = true;
 
-            this.getSourceItems().forEach(function (item) {
+            this.sourceItems().forEach(function (item) {
                 if (!item.completed()) {
                     item.toggleCompleted();
                 }
@@ -135,23 +130,23 @@ todo.models.TasksListModel = izi.modelOf(
         fromRS: function (tasks) {
             var me = this;
             tasks.forEach(function (task) {
-                me.addTaskModel(new todo.models.TaskModel().fromRS(task));
+                me.addTask(new todo.models.TaskModel().fromRS(task));
             })
         },
 
         toRQ: function () {
             var tasks = [];
-            this.getSourceItems().forEach(function (taskModel) {
-                tasks.push(taskModel.toRQ())
+            this.sourceItems().forEach(function (task) {
+                tasks.push(task.toRQ())
             });
             return tasks;
         },
 
         findById: function (id) {
             var result = undefined;
-            this.getSourceItems().forEach(function (taskModel) {
-                if (taskModel.getId() === id) {
-                    result = taskModel;
+            this.sourceItems().forEach(function (task) {
+                if (task.getId() === id) {
+                    result = task;
                     return false;
                 }
             });

@@ -2,9 +2,8 @@ todo.models.TaskModel = izi.modelOf(
     {
         fields: [
             {name: "id"},
-            {name: "title", initialValue: ""},
-            {name: "completed", initialValue: false},
-            {name: "displayed", initialValue: false}
+            {name: "title", defaultValue: ""},
+            {name: "completed", defaultValue: false}
         ],
 
         toggleCompleted: function () {

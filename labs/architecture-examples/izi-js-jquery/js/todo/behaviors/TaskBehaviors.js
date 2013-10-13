@@ -3,7 +3,7 @@ todo.behaviors.TaskBehaviors = Class.create(
         /**
          * @type {todo.models.TasksListModel}
          */
-        listModel: izi.inject("todo.models.TasksListModel"),
+        model: izi.inject("todo.models.TasksListModel"),
 
         /**
          * @type {todo.utils.TaskFinder}
@@ -11,22 +11,22 @@ todo.behaviors.TaskBehaviors = Class.create(
         taskFinder: izi.inject("todo.utils.TaskFinder"),
 
         removeTask: function (event) {
-            this.listModel.removeTaskModel(this._getTaskModel(event));
+            this.model.removeTask(this._getTaskModel(event));
         },
 
         startEditingTask: function (event) {
             var taskView = this._getTaskView(event),
-                model = this._getTaskModel(event);
+                editor = taskView.find(".edit");
 
             taskView.addClass("editing");
-            taskView.find(".edit").selectRange(0, model.title().length);
+            editor.selectRange(0, editor.val().length);
         },
 
         endEditingTask: function (event) {
             var taskView = this._getTaskView(event),
                 model = this._getTaskModel(event),
                 editor = taskView.find(".edit"),
-                enteredTitle = todo.utils.text.trim(editor.val());
+                enteredTitle = $.trim(editor.val());
 
             if (enteredTitle === "") {
                 this.removeTask(event);
@@ -45,7 +45,7 @@ todo.behaviors.TaskBehaviors = Class.create(
          * @private
          */
         _getTaskModel: function (event) {
-            return this.taskFinder.find(event.target);
+            return this.taskFinder.findTaskModel(event.target);
         },
 
         /**
@@ -54,7 +54,7 @@ todo.behaviors.TaskBehaviors = Class.create(
          * @private
          */
         _getTaskView: function (event) {
-            return this.taskFinder.getTaskView(event.target);
+            return this.taskFinder.findTaskView(event.target);
         }
     }
 );

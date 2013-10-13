@@ -1,9 +1,9 @@
 todo.behaviors.FilterTasksList = Class.create(
     {
-        tasksListModel: izi.inject("todo.models.TasksListModel"),
+        model: izi.inject("todo.models.TasksListModel"),
 
         iziInit: function () {
-            var model = this.tasksListModel;
+            var model = this.model;
 
             this.filterMap = {
                 '/': model.filterAll,
@@ -13,7 +13,7 @@ todo.behaviors.FilterTasksList = Class.create(
         },
 
         perform: function (event) {
-            this.filterMap[event.route].apply(this.tasksListModel);
+            this.filterMap[event.route].apply(this.model);
         }
     }
 );

@@ -1,13 +1,15 @@
 describe("AddNewTask behavior", function () {
 
-    var behavior, tasksListModel, newTaskModel;
+    var behavior, listModel, newTaskModel, uniqueId = "generated-uid";;
 
     beforeEach(function () {
         behavior = new todo.behaviors.AddNewTask();
-        behavior.tasksListModel = tasksListModel = new todo.models.TasksListModel();
+        behavior.listModel = listModel = new todo.models.TasksListModel();
         behavior.newTaskModel = newTaskModel = new todo.models.NewTaskModel();
+        behavior.uuidGenerator = mock(todo.utils.UuidGenerator);
 
-        spyOn(tasksListModel, 'addTaskModel');
+        spyOn(listModel, 'addTask');
+        when(behavior.uuidGenerator).uuid().thenReturn(uniqueId);
     });
 
     it("Should add and trim new task", function () {
@@ -20,10 +22,11 @@ describe("AddNewTask behavior", function () {
 
         // then
         var expectedTaskModel = new todo.models.TaskModel();
+        expectedTaskModel.id(uniqueId);
         expectedTaskModel.title("Buy a milk");
         expectedTaskModel.completed(false);
 
-        expect(tasksListModel.addTaskModel).toHaveBeenCalledWith(expectedTaskModel);
+        expect(listModel.addTask).toHaveBeenCalledWith(expectedTaskModel);
     });
 
     it("Should not add a new task when given title contains only white spaces", function () {
@@ -35,7 +38,7 @@ describe("AddNewTask behavior", function () {
         behavior.perform();
 
         // then
-        expect(tasksListModel.addTaskModel).not.toHaveBeenCalled();
+        expect(listModel.addTask).not.toHaveBeenCalled();
     });
 
 });

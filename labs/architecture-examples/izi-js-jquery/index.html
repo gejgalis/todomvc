@@ -56,7 +56,7 @@
 
 <script id="task-template" type="text/x-handlebars-template">
     {{#this}}
-    <li {{#if completed}}class="completed"{{/if}} data-id="{{id}}">
+    <li class="task {{#if completed}}completed{{/if}}" data-id="{{id}}">
     <div class="view">
         <input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
         <label>{{title}}</label>
@@ -80,9 +80,8 @@
 <script src="js/globals.js"></script>
 
 <script src="js/todo/utils/Router.js"></script>
-<script src="js/todo/utils/text.js"></script>
 <script src="js/todo/utils/TaskFinder.js"></script>
-<script src="js/todo/utils/uuid.js"></script>
+<script src="js/todo/utils/UuidGenerator.js"></script>
 
 <script src="js/todo/models/NewTaskModel.js"></script>
 <script src="js/todo/models/TaskModel.js"></script>
@@ -91,20 +90,20 @@
 <script src="js/todo/services/LocalStorageService.js"></script>
 <script src="js/todo/services/TasksService.js"></script>
 
+<script src="js/todo/views/MainView.js"></script>
 <script src="js/todo/views/NewTaskView.js"></script>
 <script src="js/todo/views/TasksListView.js"></script>
 <script src="js/todo/views/TaskView.js"></script>
-<script src="js/todo/views/FilterView.js"></script>
-<script src="js/todo/views/FooterAndMainView.js"></script>
+<script src="js/todo/views/FooterView.js"></script>
 
+<script src="js/todo/behaviors/MainBehaviors.js"></script>
 <script src="js/todo/behaviors/AddNewTask.js"></script>
-<script src="js/todo/behaviors/WhenPressedEnter.js"></script>
-<script src="js/todo/behaviors/ToggleClearCompleted.js"></script>
-<script src="js/todo/behaviors/ToggleFilters.js"></script>
-<script src="js/todo/behaviors/FilterTasksList.js"></script>
-<script src="js/todo/behaviors/ToggleFooterAndMain.js"></script>
-<script src="js/todo/behaviors/TaskBehaviors.js"></script>
 <script src="js/todo/behaviors/TasksListBehaviors.js"></script>
+<script src="js/todo/behaviors/FilterTasksList.js"></script>
+<script src="js/todo/behaviors/TaskBehaviors.js"></script>
+<script src="js/todo/behaviors/FooterBehaviors.js"></script>
+<script src="js/todo/behaviors/WhenPressedEnter.js"></script>
+<script src="js/todo/behaviors/ShowHideWhenNoTasks.js"></script>
 
 
 <script src="../../../assets/base.js"></script>
