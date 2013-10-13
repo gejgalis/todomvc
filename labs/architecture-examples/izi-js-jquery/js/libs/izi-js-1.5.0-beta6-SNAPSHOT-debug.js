@@ -1,5 +1,5 @@
 /*
- * izi-js-1.5.0-beta6-SNAPSHOT 2013-10-13 22:57
+ * izi-js-1.5.0-beta6-SNAPSHOT 2013-10-13 23:36
  *
  * Copyright (C) 2012 by izi-js contributors
  *
@@ -3863,7 +3863,7 @@ org.izi.behavior.Perform = function () {
     /**
      * Model properties names which should be observed for changes
      * @member org.izi.behavior.Perform
-     * @param {...String} properties
+     * @param {String...} properties
      * @return {org.izi.behavior.WhenModel}
      */
     Perform.prototype.whenChangeOf = function (properties) {izi.sanityOf("whenChangeOf()").args(izi.varargOf("String")).check(arguments);
@@ -6047,10 +6047,8 @@ izi.registerBindingImpl = function (impl) {izi.sanityOf("registerBindingImpl()")
  *
  * @sanity izi.sanityOf("izi.modelOf()").args(izi.arg("config").ofObject().havingProperty("fields")).check(arguments);izi.sanityOf("config.fields").args(izi.varargOf(izi.arg("field").ofObject().havingProperty("name"), izi.arg("fieldName").ofString())).check(config.fields);
  * @param {Object} config Model fields configuration. It must contain <strong>fields</strong> array of fields objects.
- * @param {Array} config.fields Configuration of model field
- * @param {String} config.fields.name Field name
- * @param {String} config.fields.defaultValue Initial value of field after creating empty model
- * @return {*}
+ * @param {Array} config.fields Configuration of model fields
+ * @return {Function}
  */
 izi.modelOf = function (config) {izi.sanityOf("izi.modelOf()").args(izi.arg("config").ofObject().havingProperty("fields")).check(arguments);izi.sanityOf("config.fields").args(izi.varargOf(izi.arg("field").ofObject().havingProperty("name"), izi.arg("fieldName").ofString())).check(config.fields);
     return org.izi.model.Model.define(config);

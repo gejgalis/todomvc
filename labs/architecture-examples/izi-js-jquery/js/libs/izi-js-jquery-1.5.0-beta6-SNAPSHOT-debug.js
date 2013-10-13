@@ -1,5 +1,5 @@
 /*
- * izi-js-jquery-1.5.0-beta6-SNAPSHOT 20131013-2257
+ * izi-js-jquery-1.5.0-beta6-SNAPSHOT 20131013-2336
  *
  * Copyright (C) 2012 by izi-js contributors
  *
@@ -387,6 +387,8 @@ izi.registerQueueImpl(org.izi.queue.impl.jQuery);org.izi.binding.impl.jquery = {
     ],
 
     valueWriters: [
+        org.izi.binding.impl.jquery.writeCheckBoxValue,
+        org.izi.binding.impl.jquery.writeRadioGroupValue,
         org.izi.binding.impl.jquery.writeSelectValue,
         org.izi.binding.impl.jquery.writeVal,
         org.izi.binding.impl.writeByFunction,

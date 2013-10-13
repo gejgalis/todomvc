@@ -17,7 +17,7 @@ todo.views.MainView = Class.create(
             izi.perform(showHideWhenNoTasks.element($main)).whenChangeOf("allCount").on(model);
 
             // Bindings
-            izi.bind().valueOf(model, "allCompleted").to$($toggleAllButton).prop("checked");
+            izi.bind().valueOf(model, "allCompleted").to().valueOf($toggleAllButton);
 
             showHideWhenNoTasks.perform();
         }
