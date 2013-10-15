@@ -2,15 +2,9 @@ todo.behaviors.FooterBehaviors = Class.create(
     {
         model: izi.inject("todo.models.TasksListModel"),
 
-        showHideCompletedButton: function () {
-            var completedCount = this.model.getCompletedCount(),
-                button = $("#clear-completed");
-
-            if (completedCount === 0) {
-                button.hide();
-            } else {
-                button.show();
-            }
+        init: function () {
+            this.toggleSelectedFilter = $.proxy(this.toggleSelectedFilter, this);
+            this.clearCompleted = $.proxy(this.clearCompleted, this);
         },
 
         toggleSelectedFilter: function (event) {

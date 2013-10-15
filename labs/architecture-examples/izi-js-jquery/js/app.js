@@ -11,7 +11,8 @@
             newTaskView: new todo.views.NewTaskView(),
             tasksListView: new todo.views.TasksListView(),
             taskView: new todo.views.TaskView(),
-            footerAndMain: new todo.views.FooterView(),
+            footerView: new todo.views.FooterView(),
+            footerFormatters: new todo.views.FooterFormatters(),
             mainView: new todo.views.MainView(),
 
             // Behaviors
@@ -23,7 +24,6 @@
             footerBehaviors: new todo.behaviors.FooterBehaviors(),
 
             whenPressedEnter: izi.protoOf(todo.behaviors.WhenPressedEnter),
-            showHideWhenNoTasks: izi.protoOf(todo.behaviors.ShowHideWhenNoTasks),
 
             // Services
             localStorageService: new todo.services.LocalStorageService("todos-izi-js-jquery"),

@@ -53,6 +53,14 @@ todo.models.TasksListModel = izi.modelOf(
             return this.getCompletedCount() > 0 && this.getActiveCount() === 0;
         },
 
+        hasAnyTasks: function () {
+            return this.getAllCount() > 0;
+        },
+
+        hasCompletedTasks: function () {
+            return this.getCompletedCount() > 0;
+        },
+
         updateItems: function () {
             if (this.updatingPaused) {
                 return;
@@ -76,6 +84,8 @@ todo.models.TasksListModel = izi.modelOf(
             this.dispatchChange("activeCount");
             this.dispatchChange("completedCount");
             this.dispatchChange("allCompleted");
+            this.dispatchChange("hasAnyTasks");
+            this.dispatchChange("hasCompletedTasks");
         },
 
         filter: function (filterFn) {
