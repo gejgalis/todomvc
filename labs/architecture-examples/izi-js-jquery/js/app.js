@@ -6,6 +6,7 @@
             // Models
             newTaskModel: new todo.models.NewTaskModel(),
             tasksListModel: new todo.models.TasksListModel(),
+            filtersModel: new todo.models.FiltersModel(),
 
             // Views
             newTaskView: new todo.views.NewTaskView(),

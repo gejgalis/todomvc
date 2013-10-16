@@ -2,26 +2,28 @@ todo.views.TasksListView = Class.create(
     {
         behaviors: izi.inject("todo.behaviors.TasksListBehaviors"),
         model: izi.inject("todo.models.TasksListModel"),
+        filtersModel: izi.inject("todo.models.FiltersModel"),
         filterTasksList: izi.inject("todo.behaviors.FilterTasksList"),
-        router: izi.inject("router"),
 
         init: function () {
             this.$container = $("#todo-list");
             this.template = Handlebars.compile($('#task-template').html());
+
+            this.renderTasks = $.proxy(this.renderTasks, this);
         },
 
         iziInit: function () {
             var model = this.model,
+                filtersModel = this.filtersModel,
                 filterTasksList = this.filterTasksList,
-                router = this.router,
-                behaviors = this.behaviors;
+                saveTasks = this.behaviors.saveTasks;
 
             // Behaviors
-            izi.perform(this.renderTasks, this).whenChangeOf("items").on(model);
-            izi.perform(behaviors.saveTasks, behaviors).whenChangeOf("items").on(model);
-            izi.perform(filterTasksList).when("routeChange").on(router);
+            izi.perform(this.renderTasks).whenChangeOf("items").on(model);
+            izi.perform(saveTasks).whenChangeOf("items").on(model);
+            izi.perform(filterTasksList).whenChangeOf("selectedFilter").on(filtersModel);
 
-            behaviors.retrieveTasks();
+            this.behaviors.retrieveTasks();
         },
 
         renderTasks: function () {

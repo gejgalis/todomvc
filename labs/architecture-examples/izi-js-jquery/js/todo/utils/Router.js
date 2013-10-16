@@ -1,25 +1,32 @@
-todo.utils.Router = function () {
-    var $router = $("<router/>");
+todo.utils.Router = Class.create(
+    {
+        model: izi.inject("todo.models.FiltersModel"),
 
-    $router.iziInit = function () {
-        var me = this,
-            triggerRouting;
+        routeToFilterMap: {
+            "/": "all",
+            "/active": "active",
+            "/completed": "completed"
+        },
 
-        crossroads.addRoute('/');
-        crossroads.addRoute('/active');
-        crossroads.addRoute('/completed');
-        crossroads.routed.add(function (route) {
-            me.trigger({type: "routeChange", route: route});
-        });
+        iziInit: function () {
+            var me = this,
+                model = this.model,
+                triggerRouting;
 
-        triggerRouting = function () {
-            crossroads.parse(location.hash.replace('#', ''));
-        };
+            crossroads.addRoute('/');
+            crossroads.addRoute('/active');
+            crossroads.addRoute('/completed');
+            crossroads.routed.add(function (route) {
+                model.setSelectedFilter(me.routeToFilterMap[route] || "all");
+            });
 
-        window.onhashchange = triggerRouting;
+            triggerRouting = function () {
+                crossroads.parse(location.hash.replace('#', ''));
+            };
 
-        triggerRouting();
-    };
+            window.onhashchange = triggerRouting;
 
-    return $router;
-}
+            triggerRouting();
+        }
+    }
+);

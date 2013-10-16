@@ -1,19 +1,23 @@
 todo.behaviors.FilterTasksList = Class.create(
     {
-        model: izi.inject("todo.models.TasksListModel"),
+        listModel: izi.inject("todo.models.TasksListModel"),
+        filtersModel: izi.inject("todo.models.FiltersModel"),
 
         iziInit: function () {
-            var model = this.model;
+            var listModel = this.listModel;
 
             this.filterMap = {
-                '/': model.filterAll,
-                '/active': model.filterActive,
-                '/completed': model.filterCompleted
-            }
+                'all': listModel.filterAll,
+                'active': listModel.filterActive,
+                'completed': listModel.filterCompleted
+            };
+
+            this.perform();
         },
 
-        perform: function (event) {
-            this.filterMap[event.route].apply(this.model);
+        perform: function () {
+            var selectedFilter = this.filtersModel.getSelectedFilter();
+            this.filterMap[selectedFilter].apply(this.listModel);
         }
     }
 );
