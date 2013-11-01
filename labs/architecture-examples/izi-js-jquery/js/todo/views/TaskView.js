@@ -1,30 +1,25 @@
 todo.views.TaskView = Class.create(
     {
         /**
-         * @type {todo.behaviors.WhenPressedEnter}
-         */
-        whenPressedEnter: izi.inject("todo.behaviors.WhenPressedEnter"),
-
-        /**
          * @type {todo.behaviors.TaskBehaviors}
          */
         behaviors: izi.inject("todo.behaviors.TaskBehaviors"),
 
         iziInit: function () {
             var behaviors = this.behaviors,
-                whenPressedEnter = this.whenPressedEnter,
+                pressedEnter = todo.behaviors.whenPressedEnterDelegated,
                 $list = $("#todo-list"),
-                $destroyButton = [$list, ".destroy"],
-                $toggleCheckbox = [$list, ".toggle"],
-                $label = [$list, "label"],
-                $editor = [$list, ".edit"];
+                click = $.iziDelegate("click"),
+                change = $.iziDelegate("change"),
+                dblClick = $.iziDelegate("dblclick"),
+                blur = $.iziDelegate("blur");
 
             // Behaviors
-            izi.perform(behaviors.removeTask, behaviors).when(izi.events.click()).on($destroyButton);
-            izi.perform(behaviors.toggleCompleted, behaviors).when(izi.events.change()).on($toggleCheckbox);
-            izi.perform(behaviors.startEditingTask, behaviors).when(izi.events.dblClick()).on($label);
-            izi.perform(behaviors.endEditingTask, behaviors).when(izi.events.blur()).on($editor);
-            izi.perform(whenPressedEnter.then(behaviors.endEditingTask, behaviors)).on($editor);
+            izi.perform(behaviors.removeTask).when(click(".destroy")).on($list);
+            izi.perform(behaviors.toggleCompleted).when(change(".toggle")).on($list);
+            izi.perform(behaviors.startEditingTask).when(dblClick("label")).on($list);
+            izi.perform(behaviors.endEditingTask).when(blur(".edit")).on($list);
+            izi.perform(behaviors.endEditingTask).when(pressedEnter(".edit")).on($list);
         }
     }
 );

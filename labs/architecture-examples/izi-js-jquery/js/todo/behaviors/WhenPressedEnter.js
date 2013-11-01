@@ -1,44 +1,18 @@
-todo.behaviors.WhenPressedEnter = Class.create(
-    {
-        ENTER_KEY: 13,
+todo.behaviors.whenPressedEnter = function (target, action, scope) {
 
-        init: function () {
-            // Fixes (this) scope of event handler
-            this._performBehavior = $.proxy(this._performBehavior, this);
-        },
+    var ENTER_KEY = 13;
 
-        register: function (target) {
-            if (target instanceof jQuery) {
-                target.on("keydown", this._performBehavior);
-            } else {
-                target[0].on("keydown", target[1], this._performBehavior);
-            }
-        },
-
-        unregister: function (target) {
-            if (target instanceof jQuery) {
-                target.off("keydown", this._performBehavior);
-            } else {
-                target[0].off("keydown", target[1], this._performBehavior);
-            }
-        },
-
-        then: function (behavior, scope) {
-            this.behavior = behavior;
-            this.scope = scope;
-            return this;
-        },
-
-        _performBehavior: function (event) {
-            if (event.keyCode !== this.ENTER_KEY) {
-                return;
-            }
-
-            if (typeof this.behavior === "function") {
-                this.behavior.apply(this.scope, arguments);
-            } else {
-                this.behavior.perform();
-            }
+    function handler(event) {
+        if (event.keyCode !== ENTER_KEY) {
+            return;
         }
+
+        action.apply(scope);
     }
-);
+
+    target.on("keydown", handler);
+
+    return function () {
+        target.off("keydown", handler);
+    }
+};

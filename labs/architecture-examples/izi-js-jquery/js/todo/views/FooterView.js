@@ -16,10 +16,10 @@ todo.views.FooterView = Class.create(
                 $clearCompletedButton = $("#clear-completed"),
                 $footer = $("#footer"),
                 $todoCount = $("#todo-count"),
-                clearCompleted = this.behaviors.clearCompleted;
+                behaviors = this.behaviors;
 
             // Behaviors
-            izi.perform(clearCompleted).when(izi.events.click()).on($clearCompletedButton);
+            izi.perform(behaviors.clearCompleted).when(izi.events.click()).on($clearCompletedButton);
 
             // Bindings
             izi.bind().valueOf(listModel, "activeCount").through(activeCountFormatter).to$($todoCount).html();

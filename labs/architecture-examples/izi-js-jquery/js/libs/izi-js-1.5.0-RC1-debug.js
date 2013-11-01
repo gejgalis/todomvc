@@ -1,5 +1,5 @@
 /*
- * izi-js-1.5.0-beta6-SNAPSHOT 2013-10-13 23:36
+ * izi-js-1.5.0-RC1 2013-10-20 17:41
  *
  * Copyright (C) 2012 by izi-js contributors
  *
@@ -24,38 +24,34 @@
 
 var treatMeAsNonMinifiedFileInJetBrainsIDE;
 
-this.org="org"in this?this.org:{};this.izi="izi"in this?this.izi:{};this.org.izi="izi"in this.org?this.org.izi:{};this.org.izi.utils="utils"in this.org.izi?this.org.izi.utils:{};this.org.izi.sanity={};org.izi.utils.indexOf=function(){function a(d,a){return Array.prototype.indexOf.call(d,a)}function c(d,a){var c,f=d.length;for(c=0;c<f;c+=1)if(d[c]===a)return c;return-1}return"function"===typeof Array.prototype.indexOf?a:c}();
-org.izi.utils.arrayContains=function(a,c){return-1!==org.izi.utils.indexOf(a,c)};org.izi.utils.forEach=function(){function a(d,a,c){Array.prototype.forEach.call(d,a,c)}function c(d,a,c){var f,h=d.length;for(f=0;f<h;f+=1)a.call(c,d[f],f,d)}return"function"===typeof Array.prototype.forEach?a:c}();
-org.izi.utils.some=function(){function a(a,c,g){return Array.prototype.some.call(a,c,g)}function c(a,c,g){var f=a.length>>>0;if("function"!=typeof c)throw new TypeError;for(var h=0;h<f;h++)if(h in a&&c.call(g,a[h],h,a))return!0;return!1}return"function"===typeof Array.prototype.some?a:c}();
-org.izi.utils.every=function(){function a(a,c,g){return Array.prototype.every.call(a,c,g)}function c(a,c,g){for(var f=a.length>>>0,h=0;h<f;h++)if(h in a&&!c.call(g,a[h],h,a))return!1;return!0}return"function"===typeof Array.prototype.every?a:c}();
-org.izi.utils.typeOf=function(a){if(void 0===a)return"undefined";if(null===a)return"null";switch(typeof a){case "string":return"String";case "number":return"Number";case "boolean":return"Boolean";case "function":return"Function"}switch(Object.prototype.toString.call(a)){case "[object Array]":return"Array";case "[object Date]":return"Date";case "[object RegExp]":return"RegExp";case "[object Boolean]":return"Boolean";case "[object Number]":return"Number"}if("object"===typeof a)return"Object";throw Error("Couldn't find type of given value");
-};org.izi.utils.ClassNotFound=function(a){this.message='Class name given as string: "'+a+"\" couldn't be resolved as a class"};org.izi.utils.ClassNotFound.prototype=Error();org.izi.utils.getClassByName=function(a){return function(c){var d,e=c.split(".");d=a;org.izi.utils.forEach(e,function(a){a=d[a];if(void 0===a)throw new org.izi.utils.ClassNotFound(c);d=a});return d}}(this);
-org.izi.utils.getCallerLineProvider=function(a){if(!izi.isDebug)return function(){return"Line numbers are available only in debug version of izi-js"};var c=Error();return function(){if(c.stack){var d=c.stack.split("\n"),e=-1<navigator.userAgent.indexOf("WebKit")?3+a:1+a;return d[e]}return" [IE doesn't provide line number in call stack]"}};
-org.izi.sanity.Sanity=function(){var a=function(a){this.config=a.withCallerLineProvider(org.izi.utils.getCallerLineProvider(3))};a.prototype.args=function(){var a=arguments;org.izi.utils.forEach(a,function(d){if(d&&d.isVarArg&&a[a.length-1]!==d)throw Error("izi.varargOf() must be declared only once and must be placed at the end");});this.config.addSignatures(arguments);return new org.izi.sanity.Check(this.config)};return a}();
-org.izi.sanity.Config=function(){var a=function(){this.signatures=[]};a.prototype.withName=function(a){this.name=a;return this};a.prototype.withCallerLineProvider=function(a){this.callerLineProvider=a;return this};a.prototype.addSignatures=function(a){this.signatures.push(a)};return a}();
-org.izi.sanity.SingleArgConfig=function(a){function c(p,b){return org.izi.utils.every(b,function(b){return"function"===typeof p[b]})}function d(b,a){return org.izi.utils.every(a,function(a){return void 0!==b[a]})}function e(b){return"String"===org.izi.utils.typeOf(b)&&-1<b.indexOf("[")}function g(b,m){var c=/['"]/g;switch(b){case "*":return!0;case "Boolean":case "RegExp":case "Date":case "Number":case "String":case "Object":case "Function":case "Array":return org.izi.utils.typeOf(m).toLowerCase()===
-b.toLowerCase();default:if("Function"===org.izi.utils.typeOf(b))return m instanceof b;if("String"===org.izi.utils.typeOf(b)&&c.test(b))return b.replace(c,"")===m;try{return m instanceof org.izi.utils.getClassByName(b)}catch(d){return"console"in a&&console.warn(d.message),!0}}}function f(b){var a=[];org.izi.utils.forEach(b,function(b){e(b.type)||a.push(b.type)});return a}function h(b){var a=[];org.izi.utils.forEach(b,function(b){e(b.type)&&a.push(b.type)});return a}function k(b,a){return org.izi.utils.some(b,
-function(b){return g(b,a)})}function l(b,a){return 0===b.length||"Array"!==org.izi.utils.typeOf(a)?!1:org.izi.utils.every(a,function(a){return org.izi.utils.some(b,function(b){b=b.replace(/[[]]/g,"");return g(b,a)})})}function i(b){if(0===b.length)return"";var a=[];org.izi.utils.forEach(b,function(b){a.push(b+"()")});return"~"+a.join("~")}function j(b){var a=[];org.izi.utils.forEach(b,function(b){a.push(b.typeLabel||b.type)});return a.join("|")}var b=function(b){this.name=b;this.expectedFunctions=
-[];this.expectedProperties=[]};b.prototype.ofArray=function(b){return!b||"*"===b?this.of("Array"):this.of(b+"[]")};b.prototype.ofObject=function(){return this.of("Object")};b.prototype.ofDate=function(){return this.of("Date")};b.prototype.ofString=function(){return this.of("String")};b.prototype.ofNumber=function(){return this.of("Number")};b.prototype.ofBoolean=function(){return this.of("Boolean")};b.prototype.ofRegExp=function(){return this.of("RegExp")};b.prototype.ofFunction=function(){return this.of("Function")};
-b.prototype.ofAny=function(){return this.of("*")};b.prototype.of=function(b,a){var c=this;if("function"===typeof b&&!a)throw Error("You must provide type label if you expect some class: izi.arg().of(SomeClass, 'SomeClass')");if("String"===org.izi.utils.typeOf(b)){var d=b.split(/[|\/]/);this.types=[];org.izi.utils.forEach(d,function(b){c.types.push({type:b})})}if("Function"===org.izi.utils.typeOf(b))this.types=[{type:b,typeLabel:a}];return this};b.prototype.havingFunction=function(b){this.expectedFunctions.push(b);
-return this};b.prototype.havingFunctions=function(){org.izi.utils.forEach(arguments,function(b){this.havingFunction(b)},this);return this};b.prototype.havingProperty=function(b){this.expectedProperties.push(b);return this};b.prototype.havingProperties=function(){org.izi.utils.forEach(arguments,function(b){this.havingProperty(b)},this);return this};b.prototype.matches=function(b){if(void 0!==b&&null!==b&&(!c(b,this.expectedFunctions)||!d(b,this.expectedProperties)))return!1;var a=f(this.types),e=h(this.types);
-return k(a,b)||l(e,b)};b.prototype.format=function(){var b=j(this.types),a=this.name?" "+this.name:"",c=i(this.expectedFunctions),d=0===this.expectedProperties.length?"":"~"+this.expectedProperties.join("~");return"{"+b+c+d+"}"+a};return b}(this);
-org.izi.sanity.VarArgConfig=function(){function a(a){var c=[],a=a.split(/[|\/]/);org.izi.utils.forEach(a,function(a){c.push(izi.arg().of(a))});return c}var c=function(c){this.argsConfigs="String"===org.izi.utils.typeOf(c)?a(c):c};c.prototype.isVarArg=!0;c.prototype.matches=function(a){return org.izi.utils.some(this.argsConfigs,function(c){return c.matches(a)})};c.prototype.format=function(){var a=[];org.izi.utils.forEach(this.argsConfigs,function(c){a.push(c.format().replace("}","...}").replace("|",
-"...|"))});return a.join(",").split("},{").join("|")};return c}();
-org.izi.sanity.Check=function(){function a(a){return a&&a.isVarArg}function c(c){var d=0,b;return function(){return a(b)?b:b=c[d++]}}function d(d,j){if(!org.izi.utils.some(j,a)&&d.length!==j.length)return!1;var b=c(j);return org.izi.utils.every(d,function(a){return b().matches(a)})}function e(a){var c=[];org.izi.utils.forEach(a,function(b){b=org.izi.utils.typeOf(b)+"[]";org.izi.utils.arrayContains(c,b)||c.push(b)});return 0===c.length?"Array":c.join("|")}function g(a){if(0===a.length)return"no arguments were given";
-var c=[];org.izi.utils.forEach(a,function(b){"Array"===org.izi.utils.typeOf(b)?c.push("{"+e(b)+"}"):c.push("{"+org.izi.utils.typeOf(b)+"}")});return"( "+c.join(", ")+" ) was given"}function f(a){var c=[];org.izi.utils.forEach(a,function(b){c.push(b.format())});return c.join(", ")}function h(a){var c=[],b;org.izi.utils.forEach(a,function(a){b=["("];b.push(f(a));b.push(")");c.push(b.join(" "))});return"    "+c.join("\nor  ")}function k(a,c,b,p){if(!org.izi.utils.some(c,function(a){return d(b,a)}))throw a=
-a+" expects one of the following arguments:\n-----------------------------------------\n"+h(c)+"\n-----------------------------------------\nbut "+g(b)+" at line:\n"+p(),Error(a);}var l=function(a){this.config=a};l.prototype.args=function(){this.config.addSignatures(arguments);return this};l.prototype.check=function(a){var c=this.config;k(c.name,c.signatures,a,c.callerLineProvider)};return l}();
-org.izi.sanity.inject=function(a){function c(b){b.lastIndex=0;return b}function d(b){var a,c;if(0===b.length)return[];if(1===b.length){a=[];for(c=0;c<b[0].length;c++)a.push([b[0][c]])}else{a=[];var e=d(b.slice(1));for(c=0;c<e.length;c++)for(var g=0;g<b[0].length;g++)a.push([].concat(b[0][g],e[c]))}return a}function e(b,a){if(a)return'izi.varargOf("'+b+'")';switch(b){case "Boolean":case "RegExp":case "Date":case "Number":case "String":case "Object":case "Function":case "Array":return"izi.arg().of"+
-b+"()";default:return-1<b.indexOf('"')?"izi.arg().of('"+b+"')":'izi.arg().of("'+b+'")'}}function g(b){var a;org.izi.utils.some(b,function(b){if(b.isOptional)return a=b,!0});return a?a.index:-1}function f(b){var a,c;if(!b)return"";if(c=/(\S+)\s*:\s*function/.exec(b))a=c[1];else if(c=/function\s+([^(]+)/.exec(b))a=c[1];else if(c=/([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=\s*function/.exec(b))a=c[1];return a?'"'+a+'()"':""}function h(b,a){if(!b)return[];for(var d=new j,e=0,g=c(/@param.*/ig),f,h=c(/@param[^{\n]+\{([^}]+)\}/ig),
-i,k=c(/@param[^{\n]+\{([^}]+)\}\s+\[/ig),n,o;f=g.exec(b);){if(i=h.exec(b))f=k.test(f[0]),i=i[1].split(/[|\/]/),n=[],o=[],org.izi.utils.forEach(i,function(b){-1<b.indexOf("...")?n.push(b.replace(c(/\.{3}/g),"")):o.push(b)}),0<o.length&&d.add(e,o.join("|"),f,!1),0<n.length&&d.add(e,n.join("|"),!1,!0);else return l("Function parameter type not specified: \n"+b+"\n"+a),[];e++}return d.createSignatures()}function k(b,a){var d;d=[];var e;if(d=c(/@sanity\s+(.*)$/gim).exec(b))return d[1];d=h(b,a);if(0===
-d.length)return"";e="izi.sanityOf("+f(a)+")";org.izi.utils.forEach(d,function(b){var a=[];org.izi.utils.forEach(b,function(b){a.push(b.arg)});e+=".args("+a.join(",")+")"});return e+=".check(arguments);"}function l(b){"java"in a&&"lang"in a.java&&"System"in a.java.lang&&a.java.lang.System.out.println("[WARN] "+b);"console"in a&&a.console.warn(b)}var i=function(b){this.text=b;this.replacements=[];this.selection={};this.lastIndex=0};i.prototype.select=function(b,a){var c;this.selection={};b.lastIndex=
-this.lastIndex;if(c=b.exec(this.text))this.selection.from=b.lastIndex-c[0].length,this.lastIndex=b.lastIndex;else return null;if(a)if(a.lastIndex=this.lastIndex,a.exec(this.text))this.lastIndex=this.selection.to=a.lastIndex;else return null;else this.selection.to=this.lastIndex;return this};i.prototype.insertAfter=function(b){this.replacements.push({from:this.selection.to,to:this.selection.to,text:b})};i.prototype.getResult=function(){var b,a,c=this.text;for(b=this.replacements.length-1;-1<b;b--)a=
-this.replacements[b],c=c.slice(0,a.from)+a.text+c.slice(a.to,c.length);return c};i.prototype.getSelectedText=function(){return this.text.slice(this.selection.from,this.selection.to)};var j=function(){this.parameters=[]};j.prototype.add=function(b,a,c,d){void 0===this.parameters[b]&&(this.parameters[b]=[]);this.parameters[b].push({arg:e(a,d),index:b,type:a,isOptional:c,isVarArg:d})};j.prototype.createSignatures=function(){var a=d(this.parameters),c=[],e,f,h;org.izi.utils.forEach(a,function(a){h=g(a);
-if(-1<h){e=[];for(f=0;f<h;f++)e.push(a[f]);c.push(e);for(f=h;f<a.length;f++)e=[],org.izi.utils.some(a,function(a,b){e.push(a);if(b===f)return!0}),c.push(e)}else c.push(a)});return c};return function(a){for(var a=new i(a),d,e;a.select(/\/\*\*/g,/\*\//g);)if(d=a.getSelectedText(),!(c(/@(no-?sanity|private|protected)/gi).test(d)||!1===c(/@(param|sanity)/gi).test(d))&&a.select(c(/.*function[^\{]+\{/g)))e=a.getSelectedText(),(d=k(d,e))&&a.insertAfter(d);return a.getResult()}}(this);
-izi.sanityOf=function(a){return new org.izi.sanity.Sanity((new org.izi.sanity.Config).withName(a||"function"))};izi.arg=function(a){return new org.izi.sanity.SingleArgConfig(a||"")};izi.varargOf=function(){return 1===arguments.length&&"String"===org.izi.utils.typeOf(arguments[0])?new org.izi.sanity.VarArgConfig(arguments[0]):new org.izi.sanity.VarArgConfig(arguments)};izi.sanityInjectTo=function(a){return org.izi.sanity.inject(a)};
-(function(a){var c=function(){var c=a.getElementsByTagName("script"),e,g,f=/^.*izi(\-js)?\-([^-]+)?\-sanity(\-min)?\.js/;for(e=c.length-1;0<=e;e-=1)if(g=c[e],g.src.match(f)){if(g.getAttribute("sanitize"))return g.getAttribute("sanitize").toString().split(";");if(-1<g.src.indexOf("?"))return g.src.replace(f,"").replace("?","").split(";");break}return null}();c&&org.izi.utils.forEach(c,function(c){if(c){var e;(e=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP"))?(e.open("GET",
-c,!1),e.send(null),e=e.responseText):e=!1;e=izi.sanityInjectTo(e);var g=a.createElement("script");g.setAttribute("fromUrl",c);g.text=e;g.type="text/javascript";a.head.appendChild(g)}})})(document,this);
+// ---- Start of izi-sanity
+(function(){var a;a=void 0;a={utils:{},sanity:{}};this.izi="izi"in this?this.izi:{};a.utils.indexOf=function(){function a(j,c){return Array.prototype.indexOf.call(j,c)}function b(a,c){var b,i=a.length;for(b=0;b<i;b+=1)if(a[b]===c)return b;return-1}return"function"===typeof Array.prototype.indexOf?a:b}();a.utils.arrayContains=function(c,b){return-1!==a.utils.indexOf(c,b)};a.utils.forEach=function(){function a(j,b,c){Array.prototype.forEach.call(j,b,c)}function b(a,b,c){var i,h=a.length;for(i=0;i<h;i+=
+1)b.call(c,a[i],i,a)}return"function"===typeof Array.prototype.forEach?a:b}();a.utils.some=function(){function a(b,c,g){return Array.prototype.some.call(b,c,g)}function b(a,b,c){var i=a.length>>>0;if("function"!=typeof b)throw new TypeError;for(var h=0;h<i;h++)if(h in a&&b.call(c,a[h],h,a))return!0;return!1}return"function"===typeof Array.prototype.some?a:b}();a.utils.every=function(){function a(b,c,g){return Array.prototype.every.call(b,c,g)}function b(a,b,c){for(var i=a.length>>>0,h=0;h<i;h++)if(h in
+a&&!b.call(c,a[h],h,a))return!1;return!0}return"function"===typeof Array.prototype.every?a:b}();a.utils.typeOf=function(a){if(void 0===a)return"undefined";if(null===a)return"null";switch(typeof a){case "string":return"String";case "number":return"Number";case "boolean":return"Boolean";case "function":return"Function"}switch(Object.prototype.toString.call(a)){case "[object Array]":return"Array";case "[object Date]":return"Date";case "[object RegExp]":return"RegExp";case "[object Boolean]":return"Boolean";
+case "[object Number]":return"Number"}if("object"===typeof a)return"Object";throw Error("Couldn't find type of given value");};a.utils.ClassNotFound=function(a){this.message='Class name given as string: "'+a+"\" couldn't be resolved as a class"};a.utils.ClassNotFound.prototype=Error();a.utils.getClassByName=function(c){return function(b){var j,f=b.split(".");j=c;a.utils.forEach(f,function(c){c=j[c];if(void 0===c)throw new a.utils.ClassNotFound(b);j=c});return j}}(this);a.utils.getCallerLineProvider=
+function(a){if(!izi.isDebug)return function(){return"Line numbers are available only in debug version of izi-js"};var b=Error();return function(){if(b.stack){var j=b.stack.split("\n"),f=-1<navigator.userAgent.indexOf("WebKit")?3+a:1+a;return j[f]}return" [IE doesn't provide line number in call stack]"}};a.sanity.Sanity=function(){var c=function(b){this.config=b.withCallerLineProvider(a.utils.getCallerLineProvider(3))};c.prototype.args=function(){var b=arguments;a.utils.forEach(b,function(a){if(a&&
+a.isVarArg&&b[b.length-1]!==a)throw Error("izi.varargOf() must be declared only once and must be placed at the end");});this.config.addSignatures(arguments);return new a.sanity.Check(this.config)};return c}();a.sanity.Config=function(){var a=function(){this.signatures=[]};a.prototype.withName=function(a){this.name=a;return this};a.prototype.withCallerLineProvider=function(a){this.callerLineProvider=a;return this};a.prototype.addSignatures=function(a){this.signatures.push(a)};return a}();a.sanity.SingleArgConfig=
+function(c){function b(o,d){return a.utils.every(d,function(a){return"function"===typeof o[a]})}function j(o,d){return a.utils.every(d,function(a){return void 0!==o[a]})}function f(d){return"String"===a.utils.typeOf(d)&&-1<d.indexOf("[")}function g(d,e){var b=/['"]/g;switch(d){case "*":return!0;case "Boolean":case "RegExp":case "Date":case "Number":case "String":case "Object":case "Function":case "Array":return a.utils.typeOf(e).toLowerCase()===d.toLowerCase();default:if("Function"===a.utils.typeOf(d))return e instanceof
+d;if("String"===a.utils.typeOf(d)&&b.test(d))return d.replace(b,"")===e;try{return e instanceof a.utils.getClassByName(d)}catch(j){return"console"in c&&console.warn(j.message),!0}}}function i(d){var e=[];a.utils.forEach(d,function(a){f(a.type)||e.push(a.type)});return e}function h(d){var e=[];a.utils.forEach(d,function(a){f(a.type)&&e.push(a.type)});return e}function l(d,e){return a.utils.some(d,function(a){return g(a,e)})}function n(d,e){return 0===d.length||"Array"!==a.utils.typeOf(e)?!1:a.utils.every(e,
+function(e){return a.utils.some(d,function(a){a=a.replace(/[[]]/g,"");return g(a,e)})})}function k(d){if(0===d.length)return"";var e=[];a.utils.forEach(d,function(a){e.push(a+"()")});return"~"+e.join("~")}function m(d){var e=[];a.utils.forEach(d,function(a){e.push(a.typeLabel||a.type)});return e.join("|")}var d=function(a){this.name=a;this.expectedFunctions=[];this.expectedProperties=[]};d.prototype.ofArray=function(a){return!a||"*"===a?this.of("Array"):this.of(a+"[]")};d.prototype.ofObject=function(){return this.of("Object")};
+d.prototype.ofDate=function(){return this.of("Date")};d.prototype.ofString=function(){return this.of("String")};d.prototype.ofNumber=function(){return this.of("Number")};d.prototype.ofBoolean=function(){return this.of("Boolean")};d.prototype.ofRegExp=function(){return this.of("RegExp")};d.prototype.ofFunction=function(){return this.of("Function")};d.prototype.ofAny=function(){return this.of("*")};d.prototype.of=function(d,e){var b=this;if("function"===typeof d&&!e)throw Error("You must provide type label if you expect some class: izi.arg().of(SomeClass, 'SomeClass')");
+if("String"===a.utils.typeOf(d)){var c=d.split(/[|\/]/);this.types=[];a.utils.forEach(c,function(a){b.types.push({type:a})})}if("Function"===a.utils.typeOf(d))this.types=[{type:d,typeLabel:e}];return this};d.prototype.havingFunction=function(a){this.expectedFunctions.push(a);return this};d.prototype.havingFunctions=function(){a.utils.forEach(arguments,function(a){this.havingFunction(a)},this);return this};d.prototype.havingProperty=function(a){this.expectedProperties.push(a);return this};d.prototype.havingProperties=
+function(){a.utils.forEach(arguments,function(a){this.havingProperty(a)},this);return this};d.prototype.matches=function(a){if(void 0!==a&&null!==a&&(!b(a,this.expectedFunctions)||!j(a,this.expectedProperties)))return!1;var d=i(this.types),c=h(this.types);return l(d,a)||n(c,a)};d.prototype.format=function(){var a=m(this.types),d=this.name?" "+this.name:"",b=k(this.expectedFunctions),c=0===this.expectedProperties.length?"":"~"+this.expectedProperties.join("~");return"{"+a+b+c+"}"+d};return d}(this);
+a.sanity.VarArgConfig=function(){function c(b){var c=[],b=b.split(/[|\/]/);a.utils.forEach(b,function(a){c.push(izi.arg().of(a))});return c}var b=function(b){this.argsConfigs="String"===a.utils.typeOf(b)?c(b):b};b.prototype.isVarArg=!0;b.prototype.matches=function(b){return a.utils.some(this.argsConfigs,function(a){return a.matches(b)})};b.prototype.format=function(){var b=[];a.utils.forEach(this.argsConfigs,function(a){b.push(a.format().replace("}","...}").replace("|","...|"))});return b.join(",").split("},{").join("|")};
+return b}();a.sanity.Check=function(){function c(a){return a&&a.isVarArg}function b(a){var b=0,d;return function(){return c(d)?d:d=a[b++]}}function j(k,m){if(!a.utils.some(m,c)&&k.length!==m.length)return!1;var d=b(m);return a.utils.every(k,function(a){return d().matches(a)})}function f(b){var c=[];a.utils.forEach(b,function(d){d=a.utils.typeOf(d)+"[]";a.utils.arrayContains(c,d)||c.push(d)});return 0===c.length?"Array":c.join("|")}function g(b){if(0===b.length)return"no arguments were given";var c=
+[];a.utils.forEach(b,function(d){"Array"===a.utils.typeOf(d)?c.push("{"+f(d)+"}"):c.push("{"+a.utils.typeOf(d)+"}")});return"( "+c.join(", ")+" ) was given"}function i(b){var c=[];a.utils.forEach(b,function(a){c.push(a.format())});return c.join(", ")}function h(b){var c=[],d;a.utils.forEach(b,function(a){d=["("];d.push(i(a));d.push(")");c.push(d.join(" "))});return"    "+c.join("\nor  ")}function l(b,c,d,o){if(!a.utils.some(c,function(a){return j(d,a)}))throw b=b+" expects one of the following arguments:\n-----------------------------------------\n"+
+h(c)+"\n-----------------------------------------\nbut "+g(d)+" at line:\n"+o(),Error(b);}var n=function(a){this.config=a};n.prototype.args=function(){this.config.addSignatures(arguments);return this};n.prototype.check=function(a){var b=this.config;l(b.name,b.signatures,a,b.callerLineProvider)};return n}();a.sanity.inject=function(c){function b(a){a.lastIndex=0;return a}function j(a){var b,c;if(0===a.length)return[];if(1===a.length){b=[];for(c=0;c<a[0].length;c++)b.push([a[0][c]])}else{b=[];var f=
+j(a.slice(1));for(c=0;c<f.length;c++)for(var g=0;g<a[0].length;g++)b.push([].concat(a[0][g],f[c]))}return b}function f(a,b){if(b)return'izi.varargOf("'+a+'")';switch(a){case "Boolean":case "RegExp":case "Date":case "Number":case "String":case "Object":case "Function":case "Array":return"izi.arg().of"+a+"()";default:return-1<a.indexOf('"')?"izi.arg().of('"+a+"')":'izi.arg().of("'+a+'")'}}function g(d){var b;a.utils.some(d,function(a){if(a.isOptional)return b=a,!0});return b?b.index:-1}function i(a){var b,
+c;if(!a)return"";if(c=/(\S+)\s*:\s*function/.exec(a))b=c[1];else if(c=/function\s+([^(]+)/.exec(a))b=c[1];else if(c=/([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=\s*function/.exec(a))b=c[1];return b?'"'+b+'()"':""}function h(d,c){if(!d)return[];for(var e=new m,f=0,j=b(/@param.*/ig),g,i=b(/@param[^{\n]+\{([^}]+)\}/ig),h,k=b(/@param[^{\n]+\{([^}]+)\}\s+\[/ig),l,p;g=j.exec(d);){if(h=i.exec(d))g=k.test(g[0]),h=h[1].split(/[|\/]/),l=[],p=[],a.utils.forEach(h,function(a){-1<a.indexOf("...")?l.push(a.replace(b(/\.{3}/g),
+"")):p.push(a)}),0<p.length&&e.add(f,p.join("|"),g,!1),0<l.length&&e.add(f,l.join("|"),!1,!0);else return n("Function parameter type not specified: \n"+d+"\n"+c),[];f++}return e.createSignatures()}function l(d,c){var e;e=[];var f;if(e=b(/@sanity\s+(.*)$/gim).exec(d))return e[1];e=h(d,c);if(0===e.length)return"";f="izi.sanityOf("+i(c)+")";a.utils.forEach(e,function(d){var b=[];a.utils.forEach(d,function(a){b.push(a.arg)});f+=".args("+b.join(",")+")"});return f+=".check(arguments);"}function n(a){"java"in
+c&&"lang"in c.java&&"System"in c.java.lang&&c.java.lang.System.out.println("[WARN] "+a);"console"in c&&c.console.warn(a)}var k=function(a){this.text=a;this.replacements=[];this.selection={};this.lastIndex=0};k.prototype.select=function(a,b){var c;this.selection={};a.lastIndex=this.lastIndex;if(c=a.exec(this.text))this.selection.from=a.lastIndex-c[0].length,this.lastIndex=a.lastIndex;else return null;if(b)if(b.lastIndex=this.lastIndex,b.exec(this.text))this.lastIndex=this.selection.to=b.lastIndex;
+else return null;else this.selection.to=this.lastIndex;return this};k.prototype.insertAfter=function(a){this.replacements.push({from:this.selection.to,to:this.selection.to,text:a})};k.prototype.getResult=function(){var a,b,c=this.text;for(a=this.replacements.length-1;-1<a;a--)b=this.replacements[a],c=c.slice(0,b.from)+b.text+c.slice(b.to,c.length);return c};k.prototype.getSelectedText=function(){return this.text.slice(this.selection.from,this.selection.to)};var m=function(){this.parameters=[]};m.prototype.add=
+function(a,b,c,g){void 0===this.parameters[a]&&(this.parameters[a]=[]);this.parameters[a].push({arg:f(b,g),index:a,type:b,isOptional:c,isVarArg:g})};m.prototype.createSignatures=function(){var b=j(this.parameters),c=[],e,f,h;a.utils.forEach(b,function(b){h=g(b);if(-1<h){e=[];for(f=0;f<h;f++)e.push(b[f]);c.push(e);for(f=h;f<b.length;f++)e=[],a.utils.some(b,function(a,b){e.push(a);if(b===f)return!0}),c.push(e)}else c.push(b)});return c};return function(a){for(var a=new k(a),c,f;a.select(/\/\*\*/g,/\*\//g);)if(c=
+a.getSelectedText(),!(b(/@(no-?sanity|private|protected)/gi).test(c)||!1===b(/@(param|sanity)/gi).test(c))&&a.select(b(/.*function[^\{]+\{/g)))f=a.getSelectedText(),(c=l(c,f))&&a.insertAfter(c);return a.getResult()}}(this);izi.sanityOf=function(c){return new a.sanity.Sanity((new a.sanity.Config).withName(c||"function"))};izi.arg=function(c){return new a.sanity.SingleArgConfig(c||"")};izi.varargOf=function(){return 1===arguments.length&&"String"===a.utils.typeOf(arguments[0])?new a.sanity.VarArgConfig(arguments[0]):
+new a.sanity.VarArgConfig(arguments)};izi.sanityInjectTo=function(c){return a.sanity.inject(c)};(function(c){var b=function(){var a=c.getElementsByTagName("script"),b,g,i=/^.*izi(\-js)?\-([^-]+)?\-sanity(\-min)?\.js/;for(b=a.length-1;0<=b;b-=1)if(g=a[b],g.src.match(i)){if(g.getAttribute("sanitize"))return g.getAttribute("sanitize").toString().split(";");if(-1<g.src.indexOf("?"))return g.src.replace(i,"").replace("?","").split(";");break}return null}();b&&a.utils.forEach(b,function(a){if(a){var b;
+(b=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP"))?(b.open("GET",a,!1),b.send(null),b=b.responseText):b=!1;b=izi.sanityInjectTo(b);var g=c.createElement("script");g.setAttribute("fromUrl",a);g.text=b;g.type="text/javascript";c.head.appendChild(g)}})})(document,this)})();
 // ---- End of izi-sanity
+
 this.org = 'org' in this ? this.org : {};
 this.izi = 'izi' in this ? this.izi : {};
 this.org.izi = 'izi' in this.org ? this.org.izi : {};
@@ -537,7 +533,8 @@ org.izi.utils.findClosure = function org_izi_utils_findClosure(factories, args, 
  */
 org.izi.model.Observable = function () {
 
-    var forEach = org.izi.utils.forEach;
+    var forEach = org.izi.utils.forEach,
+        every = org.izi.utils.every;
 
     function Observable() {
         this.listeners = {};
@@ -593,22 +590,26 @@ org.izi.model.Observable = function () {
          * @param {Function} fn
          */
         removeListener: function (type, fn) {
-            var listeners = this.findListeners(type);
+            var listeners = this.findListeners(type),
+                listenerToRemove;
 
-            forEach(listeners, function (listener) {
+
+            every(listeners, function (listener) {
                 if (listener.fn === fn) {
-                    org.izi.utils.removeItem(listeners, listener);
+                    listenerToRemove = listener;
+                    return false;
                 }
+                return true;
             });
+
+            if (listenerToRemove) {
+                org.izi.utils.removeItem(listeners, listenerToRemove);
+            }
         }
     };
 
     return Observable;
-}();/**
- * @member org.izi.model
- * @extends org.izi.model.Observable
- */
-org.izi.model.Model = function () {
+}();org.izi.model.Model = function () {
 
     var forEach = org.izi.utils.forEach;
 
@@ -651,10 +652,17 @@ org.izi.model.Model = function () {
         return data;
     }
 
-    function Model() {
+    /**
+     * See [Model guide](#guide/model) for usage documentation.
+     *
+     * @extends org.izi.model.Observable
+     * @class org.izi.model.Model
+     * @constructor
+     */
+    var Model = function org_izi_Model() {
         Model.upper.constructor.apply(this, arguments);
         this.init();
-    }
+    };
 
     org.izi.utils.inherit(Model, org.izi.model.Observable);
 
@@ -671,11 +679,10 @@ org.izi.model.Model = function () {
      * @protected
      */
     Model.prototype.init = function () {
-
     };
 
     /**
-     * Retrieves value for given property name
+     * Retrieves value of given property name
      * @member org.izi.model.Model
      * @param {String} propertyName
      * @return {*}
@@ -685,8 +692,10 @@ org.izi.model.Model = function () {
     };
 
     /**
-     * Updates value for given property name and returns own model instance (this).
+     * Updates value of given property name and returns own model instance (this).
      * @member org.izi.model.Model
+     * @fires change
+     * @fires propertyNameChange
      * @param {String|Object} propertyName or map of pairs property=>value
      * @param {*} [value]
      * @return {org.izi.model.Model}
@@ -711,12 +720,31 @@ org.izi.model.Model = function () {
         return this;
     };
 
-    Model.prototype.dispatchChange = function (propertyName, newValue, oldValue) {
+    /**
+     * Fires notifications about value changes. This method is used internally by {@link org.izi.model.Model#set} method.
+     * Firstly is fired event `"change"` and after that is fired event with name corresponding to `propertyName`.
+     * For example for `dispatchChange("firstName")` will be fired two events: `"change"` and `"firstNameChange"`.
+     *
+     * @fires change
+     * @fires propertyNameChange
+     * @param {String} propertyName
+     * @param {*} [newValue]
+     * @param {*} [oldValue]
+     */
+    Model.prototype.dispatchChange = function (propertyName, newValue, oldValue) {izi.sanityOf("dispatchChange()").args(izi.arg().ofString()).args(izi.arg().ofString(),izi.arg().of("*")).args(izi.arg().ofString(),izi.arg().of("*"),izi.arg().of("*")).check(arguments);
         this.dispatchEvent(propertyName + "Change", [newValue, oldValue]);
         this.dispatchEvent("change", [propertyName, newValue, oldValue]);
     };
 
-    Model.prototype.equals = function (val1, val2) {
+    /**
+     * Method used to detect if new value that is pretended to be set is different to the old one. Override
+     * this method if you want to use custom equals function.
+     *
+     * @param {*} val1
+     * @param {*} val2
+     * @returns {Boolean}
+     */
+    Model.prototype.equals = function (val1, val2) {izi.sanityOf("equals()").args(izi.arg().of("*"),izi.arg().of("*")).check(arguments);
         if (org.izi.utils.typeOf(val1) === "Array" && org.izi.utils.typeOf(val2) === "Array") {
             return this.equalsArray(val1, val2);
         }
@@ -724,6 +752,13 @@ org.izi.model.Model = function () {
         return val1 === val2;
     };
 
+    /**
+     * This method is used in default {@link org.izi.model.Model#equals} method.
+     *
+     * @param arr1
+     * @param arr2
+     * @returns {boolean}
+     */
     Model.prototype.equalsArray = function (arr1, arr2) {
         if (arr1.length !== arr2.length) {
             return false;
@@ -736,6 +771,26 @@ org.izi.model.Model = function () {
         }
 
         return true;
+    };
+
+    Model.prototype.iziObserveProperty = function (property, propertyChangeCallback) {
+        var me = this,
+            propertyChangeEvent = property + "Change";
+
+        me.addListener(propertyChangeEvent, propertyChangeCallback);
+        return function () {
+            me.removeListener(propertyChangeEvent, propertyChangeCallback);
+        }
+    };
+
+    Model.prototype.iziObserveWidget = function (eventConfig, action, scope, eventOptions) {
+        var me = this,
+            eventType = eventConfig.getEventType();
+
+        me.addListener(eventType, action, scope);
+        return function () {
+            me.removeListener(eventType, action);
+        }
     };
 
     /**
@@ -770,6 +825,25 @@ org.izi.model.Model = function () {
 
 
     return Model;
+
+    /**
+     * @event propertyNameChange
+     * Fired when new value of property `"propertyName"` has been already set. Each property fires its own event so you should
+     * register listener of `firstName` property using following code: `model.addListener("firstNameChange", handler)`
+     *
+     * @param {*} newValue new value
+     * @param {*} oldValue current value
+     */
+
+    /**
+     * @event change
+     * Fired when new value of property has been already set.
+     * @param {String} property property name that its value has changed
+     * @param {*} newValue current value
+     * @param {*} oldValue previous value
+     */
+
+    /** @ignore function: () {izi.sanityOf().args(izi.arg().of("*"),izi.arg().of("*")).check(arguments); */
 }();
 
 
@@ -1329,6 +1403,7 @@ org.izi.ioc.Config = function () {
     }
 
     /**
+     * @ignore
      * @param {org.izi.ioc.BeansContext} beansContext
      */
     function handleDestroyFromParentContext(beansContext) {izi.sanityOf("handleDestroyFromParentContext()").args(izi.arg().of("org.izi.ioc.BeansContext")).check(arguments);
@@ -1568,7 +1643,6 @@ org.izi.ioc.Config = function () {
     /**
      * Injection marker for beans arguments and properties.
      * @class org.izi.ioc.Injection
-     * @private
      * @constructor
      * @private
      * @param {String|Function} beanIdOrType Bean id or constructor function or dotted string class definition
@@ -3486,7 +3560,6 @@ org.izi.events.IziEvents = {
     /**
      * Internal configuration used in behavior fluent API
      * @class org.izi.behavior.Config
-     * @private
      * @constructor
      * @private
      * @param {Object} impl izi behavior implementation
@@ -3644,7 +3717,7 @@ org.izi.events.IziEvents = {
 }();org.izi.behavior.WhenWidget = function () {
 
     /**
-     * After <code>izi.perform(behavior).when('click')...</code> behavior API
+     * After `izi.perform(behavior).when('click')...` behavior API
      * @class org.izi.behavior.WhenWidget
      * @constructor
      * @private
@@ -3655,8 +3728,8 @@ org.izi.events.IziEvents = {
     };
 
     /**
-     * Widget declaration. You can pass directly widget instance or object containing widget on <strong>delegatedIn</strong> property.
-     * <code>
+     * Widget declaration. You can pass directly widget instance or object containing widget on **delegatedIn** property.
+     *
      *     var showMessage = new ShowMessage();
      *     var button = new Button();
      *     var wrapper = {
@@ -3667,14 +3740,13 @@ org.izi.events.IziEvents = {
      *
      *     // will work also for:
      *     izi.perform(showMessage).when('click').on(wrapper);
-     * </code>
+     *
      *
      * @member org.izi.behavior.WhenWidget
-     * @sanity izi.sanityOf("on()").args(izi.arg("").ofArray()).args(izi.arg("widget").ofObject()).args(izi.arg("wrapper").ofObject().havingProperty("delegatedIn")).check(arguments);
-     * @param {Object} widget Widget that should be observed.
+     * @param {*} widget Widget that should be observed.
      * @return {org.izi.behavior.OnWidget}
      */
-    WhenWidget.prototype.on = function (widget) {izi.sanityOf("on()").args(izi.arg("").ofArray()).args(izi.arg("widget").ofObject()).args(izi.arg("wrapper").ofObject().havingProperty("delegatedIn")).check(arguments);
+    WhenWidget.prototype.on = function (widget) {izi.sanityOf("on()").args(izi.arg().of("*")).check(arguments);
         return new org.izi.behavior.OnWidget(this.config.withDispatcher(widget));
     };
 
@@ -3683,7 +3755,7 @@ org.izi.events.IziEvents = {
 org.izi.behavior.WhenModel = function () {
 
     /**
-     * After <code>izi.perform(behavior).whenChangeOf('firstName')...</code> behavior API
+     * After `izi.perform(behavior).whenChangeOf('firstName')...` behavior API
      * @class org.izi.behavior.WhenModel
      * @constructor
      * @private
@@ -3695,7 +3767,7 @@ org.izi.behavior.WhenModel = function () {
 
     /**
      * Model declaration. You can pass directly model instance or object containing model on <strong>delegatedIn</strong> property.
-     * <code>
+     *
      *     var showFullName = new ShowFullName();
      *     var model = new UserModel();
      *     var wrapper = {
@@ -3706,7 +3778,7 @@ org.izi.behavior.WhenModel = function () {
      *
      *     // will work also for:
      *     izi.perform(showFullName).whenChangeOf('firstName', 'lastName').on(wrapper);
-     * </code>
+     *
      * @member org.izi.behavior.WhenModel
      * @param {Object} model Model that should be observed for properties changes.
      * @return {org.izi.behavior.OnModel}
@@ -3754,8 +3826,12 @@ org.izi.behavior.OnWidget = function () {
                     } else {
                         me.observers.push(impl.observeWidget(widget, eventConfig, action, scope, eventOptions));
                     }
+
+                } else if (org.izi.utils.typeOf(eventConfig) === "Function") {
+                    me.observers.push(eventConfig(widget, action, scope, eventOptions));
+
                 } else {
-                    throw new Error("Incorrect event type. Expecting izi.event.* or 'eventType'");
+                    throw new Error("Incorrect event type. Expecting izi.event.* or 'eventType' or function(target, action, scope, eventOptions)");
                 }
             });
         }
@@ -3832,25 +3908,44 @@ org.izi.behavior.Perform = function () {
      *     izi.perform(behavior).when('mouseup', 'mousedown').on(button);
      *     izi.perform(behavior).when(izi.events.click(), izi.events.keyDown().ENTER()).on(button);
      *
+     * Event registration function: (since 1.5.0)
+     *
+     *     // target - is a button in this example
+     *     // action - is a reference to `behavior.perform` function
+     *     // scope - is a reference to `behavior`
+     *     function click(target, action, scope, eventOptions) {
+     *
+     *         // You may use any custom registration here
+     *         target.addListener("click", action, scope);
+     *
+     *         return function stopObserving() {
+     *
+     *             // You must return function that will unregister listener
+     *             target.removeListener("click", action, scope);
+     *         }
+     *     }
+     *     izi.perform(behavior).when(click).on(button);
+     *
      * @member org.izi.behavior.Perform
-     * @param {String.../org.izi.events.EventConfig.../Object...} events Event type which should be observed for triggering behavior
+     * @param {String.../org.izi.events.EventConfig.../Function...|Object...} events Event type which should be observed for triggering behavior
      * or event config created by izi.events.click() etc...
      * @param {Object} [eventOptions] Optionally you can pass also event options if your framework implementation supports it.
      * @return {org.izi.behavior.WhenWidget}
      */
-    Perform.prototype.when = function () {izi.sanityOf("when()").args(izi.varargOf("String|org.izi.events.EventConfig|Object")).args(izi.varargOf("String|org.izi.events.EventConfig|Object"),izi.arg().ofObject()).check(arguments);
+    Perform.prototype.when = function () {izi.sanityOf("when()").args(izi.varargOf("String|org.izi.events.EventConfig|Function|Object")).args(izi.varargOf("String|org.izi.events.EventConfig|Function|Object"),izi.arg().ofObject()).check(arguments);
         var events = [],
             eventOptions,
-            arg;
+            arg, argType;
 
         for (var i = arguments.length - 1; i >= 0; i--) {
             arg = arguments[i];
+            argType = org.izi.utils.typeOf(arg);
 
-            if (org.izi.utils.typeOf(arg) === 'String') {
+            if (argType === 'String') {
                 events.push(new org.izi.events.EventConfig(arg));
-            } else if (arg.isEventConfig) {
+            } else if (arg.isEventConfig || argType === 'Function') {
                 events.push(arg);
-            } else if (org.izi.utils.typeOf(arg) === 'Object') {
+            } else if (argType === 'Object') {
                 eventOptions = arg;
             } else {
                 throw new Error("Incorrect event types/options arguments");
@@ -3891,9 +3986,9 @@ org.izi.behavior.Perform = function () {
      *
      *     izi.perform(registrar).on(target);
      *
-     * @param {Object|Array} target
+     * @param {*} target
      */
-    Perform.prototype.on = function (target) {izi.sanityOf("on()").args(izi.arg().of("Object|Array")).check(arguments);
+    Perform.prototype.on = function (target) {izi.sanityOf("on()").args(izi.arg().of("*")).check(arguments);
         var registrar = this.config.action;
 
         if (org.izi.utils.typeOf(registrar.register) === 'Function') {
@@ -3931,10 +4026,29 @@ org.izi.behavior.register = function (impl) {
     }
 
     /**
-     * @hide
-     * @sanity izi.sanityOf("izi.perform()").args(izi.arg("behavior").ofObject().havingFunction(impl.defaultPerformFunction)).args(izi.arg("behaviorWrapper").ofObject().havingProperty("delegatedIn")).args(izi.arg("callback").ofFunction()).args(izi.arg("callback").ofFunction(), izi.arg("scope").ofObject()).args(izi.arg("registrar").ofObject().havingFunctions("register", "unregister")).check(arguments);
+     * @ignore
+     * @sanity izi.sanityOf("izi.perform()").args().args(izi.arg("behavior").ofObject().havingFunction(impl.defaultPerformFunction)).args(izi.arg("behaviorWrapper").ofObject().havingProperty("delegatedIn")).args(izi.arg("callback").ofFunction()).args(izi.arg("callback").ofFunction(), izi.arg("scope").ofObject()).args(izi.arg("registrar").ofObject().havingFunctions("register", "unregister")).check(arguments);
      */
-    return function (action, scope) {izi.sanityOf("izi.perform()").args(izi.arg("behavior").ofObject().havingFunction(impl.defaultPerformFunction)).args(izi.arg("behaviorWrapper").ofObject().havingProperty("delegatedIn")).args(izi.arg("callback").ofFunction()).args(izi.arg("callback").ofFunction(), izi.arg("scope").ofObject()).args(izi.arg("registrar").ofObject().havingFunctions("register", "unregister")).check(arguments);
+    return function (action, scope) {izi.sanityOf("izi.perform()").args().args(izi.arg("behavior").ofObject().havingFunction(impl.defaultPerformFunction)).args(izi.arg("behaviorWrapper").ofObject().havingProperty("delegatedIn")).args(izi.arg("callback").ofFunction()).args(izi.arg("callback").ofFunction(), izi.arg("scope").ofObject()).args(izi.arg("registrar").ofObject().havingFunctions("register", "unregister")).check(arguments);
+
+        if (arguments.length === 0) {
+            var behaviors = [];
+
+            var registerBehaviors = function (action, scope) {
+                var behavior = izi.perform.apply(this, arguments)
+                behaviors.push(behavior);
+                return behavior;
+            };
+
+            registerBehaviors.stopObserving = function () {
+                org.izi.utils.forEach(behaviors, function (behavior) {
+                    behavior.stopObserving();
+                });
+            };
+
+            return registerBehaviors;
+        }
+
         return new org.izi.behavior.Perform(new org.izi.behavior.Config(impl).withAction(action).withScope(scope));
     };
 };
@@ -3942,10 +4056,9 @@ org.izi.binding.Config = function () {
 
     /**
      * Internal configuration used in binding fluent API
+     * @private
      * @class org.izi.binding.Config
-     * @private
      * @constructor
-     * @private
      * @param {Object} impl izi binding implementation
      */
     var Config = function org_izi_binding_Config(impl) {
@@ -4080,7 +4193,7 @@ org.izi.binding.Config = function () {
     return Config;
 }();org.izi.binding.Bind = function () {
     /**
-     * After <code>izi.bind()...</code> fluent API
+     * After `izi.bind()...` fluent API
      * @class org.izi.binding.Bind
      * @constructor
      * @private
@@ -4091,7 +4204,6 @@ org.izi.binding.Config = function () {
     };
 
     /**
-     * @private
      * @param source
      * @param sourceProperty
      * @return {org.izi.binding.ValueOf}
@@ -4114,7 +4226,7 @@ org.izi.binding.Config = function () {
      * Binding source setup.
      *
      * You can pass directly source instance or object containing source on <strong>delegatedIn</strong> property.
-     * <code>
+     *
      *     var model = new User();
      *     var wrapper = {
      *         delegatedIn: model
@@ -4123,11 +4235,11 @@ org.izi.binding.Config = function () {
      *
      *     // will work also for:
      *     izi.bind().valueOf(wrapper, 'firstName');
-     * </code>
+     *
      * You can also specify more than one property:
-     * <code>
+     *
      *     izi.bind().valueOf(model, 'firstName', 'lastName', 'title');
-     * </code>
+     *
      *
      * @sanity izi.sanityOf("valueOf()").args(izi.arg("source").ofObject()).args(izi.arg("source").ofObject().havingProperty("delegatedIn")).args(izi.arg("source").ofObject(), izi.varargOf(izi.arg("sourceProperty").ofString())).args(izi.arg("source").ofObject().havingProperty("delegatedIn"), izi.varargOf(izi.arg("sourceProperty").ofString())).check(arguments);
      * @member org.izi.binding.Bind
@@ -4141,7 +4253,7 @@ org.izi.binding.Config = function () {
 
     /**
      * Binding source setup for selected items of lists, grids, etc.
-     * This is an alias to <code>this.valueOf(source, "selectedItems")</code>
+     * This is an alias to `this.valueOf(source, "selectedItems")`
      * You can pass directly model instance or object containing model on <strong>delegatedIn</strong> property.
      *
      *     var dataGrid = new DataGrid();
@@ -4174,7 +4286,7 @@ org.izi.binding.Config = function () {
     };
 
     /**
-     * Unbind all registered bindings created by one <code>izi.bind()</code> instance.
+     * Unbind all registered bindings created by one `izi.bind()` instance.
      *
      *     var model = new User();
      *     var firstNameEditor, lastNameEditor;
@@ -4196,7 +4308,7 @@ org.izi.binding.Config = function () {
     };
 
     /**
-     * Execute manually all registered bindings created by one <code>izi.bind({auto: false})</code> instance.
+     * Execute manually all registered bindings created by one `izi.bind({auto: false})` instance.
      *
      *     var model = new User();
      *     var firstNameEditor, lastNameEditor;
@@ -4223,7 +4335,7 @@ org.izi.binding.ValueOf = function () {
 
 
     /**
-     * After <code>izi.bind().valueOf(widget)...</code> fluent API
+     * After `izi.bind().valueOf(widget)...` fluent API
      * @class org.izi.binding.ValueOf
      * @constructor
      * @private
@@ -4236,7 +4348,7 @@ org.izi.binding.ValueOf = function () {
     /**
      * Binding target setup.
      * You can pass directly target instance or object containing target on <strong>delegatedIn</strong> property.
-     * <code>
+     * 
      *     var label = new Label();
      *     var wrapper = {
      *         delegatedIn: label
@@ -4245,11 +4357,11 @@ org.izi.binding.ValueOf = function () {
      *
      *     //will work also for:
      *     izi.bind().valueOf(model).to(wrapper, "text");
-     * </code>
+     * 
      * You can skip both parameters in order to more elegant notation:
-     * <code>
+     * 
      *     izi.bind().valueOf(model).to().textOf(label);
-     * </code>
+     * 
      *
      * As a target you can also use a function with given scope:
      *
@@ -4277,7 +4389,7 @@ org.izi.binding.ValueOf = function () {
      * @sanity izi.sanityOf("to()").args().args(izi.arg("targetFunction").ofFunction()).args(izi.arg("targetFunction").ofFunction(), izi.arg("scope").ofObject()).args(izi.arg("target").ofObject(), izi.arg("targetProperty").ofString()).args(izi.arg("target").ofObject().havingProperty("delegatedIn"), izi.arg("targetProperty").ofString()).check(arguments);
      * @param {Object/Function} [target] Model or widget or Function
      * @param {String/Object} [targetProperty] Target property name or Function scope
-     * @return {org.izi.binding.Binding|org.izi.binding.ValueOf} <code>.to()</code> returns org.izi.binding.ValueOf, <code>.to(target, "property")</code> returns org.izi.binding.Binding
+     * @return {org.izi.binding.Binding|org.izi.binding.ValueOf} `.to()` returns org.izi.binding.ValueOf, `.to(target, "property")` returns org.izi.binding.Binding
      */
     ValueOf.prototype.to = function (target, targetProperty) {izi.sanityOf("to()").args().args(izi.arg("targetFunction").ofFunction()).args(izi.arg("targetFunction").ofFunction(), izi.arg("scope").ofObject()).args(izi.arg("target").ofObject(), izi.arg("targetProperty").ofString()).args(izi.arg("target").ofObject().havingProperty("delegatedIn"), izi.arg("targetProperty").ofString()).check(arguments);
         if (arguments.length === 0) {
@@ -4326,12 +4438,12 @@ org.izi.binding.ValueOf = function () {
     /**
      * Formatter function which is used before set value on target.
      * If you specified more than one source properties - you must also specify formatter function.
-     * <code>
+     * 
      *     var fullNameFormatter = function (firstName, lastName) {
      *         return firstName + ' ' + lastName;
      *     }
      *     izi.bind().valueOf(model, 'firstName', 'lastName').through(fullNameFormatter)
-     * </code>
+     * 
      *
      * @member org.izi.binding.ValueOf
      * @param {Function} formatter Function that combines all source values to one value
@@ -4344,7 +4456,7 @@ org.izi.binding.ValueOf = function () {
 
     /**
      * Additional source property which change will trigger binding execution.
-     * <code>
+     * 
      *     var label = new Label();
      *     var model = new User();
      *     model.getFullName = function () {
@@ -4355,7 +4467,7 @@ org.izi.binding.ValueOf = function () {
      *               .onChangeOf("firstName")
      *               .onChangeOf("lastName")
      *               .to().textOf(label);
-     * </code>
+     * 
      *
      * @member org.izi.binding.ValueOf
      * @param {String} property Model property that triggers binding execution
@@ -4372,6 +4484,10 @@ org.izi.binding.ValueOf = function () {
         curry = org.izi.utils.curry,
         findClosure = org.izi.utils.findClosure,
         INVALID_VALUE = {};
+
+    function onlyOnceError() {
+        throw new Error("twoWay() method may be used only once");
+    }
 
     /**
      * Binding initializer - the last part of
@@ -4504,11 +4620,12 @@ org.izi.binding.ValueOf = function () {
             }
 
             if (izi.isDebug) {
-                org.izi.utils.log("[BINDING] Could not find change observer for:",  source,  "and property:", sourceProperty);
+                org.izi.utils.log("[BINDING] Could not find change observer for:", source, "and property:", sourceProperty);
             }
 
-            return function notWatchableObserver () {
-                return function doNothing() {}
+            return function notWatchableObserver() {
+                return function doNothing() {
+                }
             }
         }
     };
@@ -4572,6 +4689,8 @@ org.izi.binding.ValueOf = function () {
             var changeObserver = me.getChangeObserver(source, sourceProperty, target, targetProperty, transferValueFn);
             observers.push(changeObserver(source, sourceProperty, target, targetProperty, transferValueFn));
         });
+
+        this.reverseBinding && this.reverseBinding.bind();
     };
 
     /**
@@ -4592,10 +4711,45 @@ org.izi.binding.ValueOf = function () {
         forEach(this.observers, function (observer) {
             observer();
         });
+
+        this.reverseBinding && this.reverseBinding.unbind()
     };
 
     /**
-     * Execute binding (transfer value from source to target)
+     * Creates two way binding between source and target. There are following limitations for using this feature:
+     *
+     *  * source property must be only one
+     *  * `through()` function can't be defined
+     *  * target can't be a function
+     *
+     * @member org.izi.binding.Binding
+     * @since 1.5.0
+     * @returns {*}
+     */
+    Binding.prototype.twoWay = function () {
+        if (this.formatter) {
+            throw new Error("Two way binding doesn't allow to use .through(fn) function");
+        }
+
+        if (org.izi.utils.typeOf(this.target) === "Function") {
+            throw new Error("Two way binding doesn't allow to use function as a target");
+        }
+
+        var reverseConfig = new org.izi.binding.Config(this.impl)
+            .withOptions(this.options)
+            .withSource(this.target)
+            .withSourceProperties(this.targetProperty)
+            .withTarget(this.source)
+            .withTargetProperty(this.sourceProperties[0]);
+
+        this.reverseBinding = new org.izi.binding.Binding(reverseConfig);
+        this.twoWay = onlyOnceError;
+        return this;
+    };
+
+    /**
+     * Execute binding (transfer value from source to target). In case of two way binding it will be triggered
+     * just binging from source to target.
      * @member org.izi.binding.Binding
      * @since 1.1.0
      */
@@ -4764,24 +4918,6 @@ org.izi.binding.impl.writeToFunction = function () {
     }
 
     return org.izi.binding.impl.createWriter(matcher, writer);
-}();org.izi.binding.impl.iziModelChangeObserver = function () {
-
-    function matcher(source, sourceProperty, target, targetProperty, transferValueFn) {
-        return source.isIziModel;
-    }
-
-    function observer(source, sourceProperty, target, targetProperty, transferValueFn) {
-
-        var propertyChange = sourceProperty + "Change";
-
-        source.addListener(propertyChange, transferValueFn);
-
-        return function stopObserving() {
-            source.removeListener(propertyChange, transferValueFn);
-        };
-    }
-
-    return org.izi.binding.impl.createObserver(matcher, observer);
 }();org.izi.binding.impl.customPropertyObserver = function () {
 
     function matcher(source, sourceProperty, target, targetProperty, transferValueFn) {
@@ -5861,7 +5997,7 @@ org.izi.queue.Queue = function (global) {
      * @member org.izi.queue.Queue
      * @private
      * @param task
-     * @return {number|defaultTimeout}
+     * @return {Number}
      */
     Queue.prototype.timeoutForTask = function (task) {
         // todo - specific timeouts for tasks
@@ -5973,10 +6109,15 @@ izi.inject = function (beanIdOrType) {izi.sanityOf("inject()").args(izi.arg().of
 
 /**
  * Init behavior API. You can specify function and scope:
+ *
  *     izi.perform(behavior.perform, behavior).when('click').on(button)
+ *
  * ... or only behavior ('perform' function will be called by default):
+ *
  *     izi.perform(behavior).when('click').on(button)
+ *
  * ... or custom event registrar ('register' and 'unregister' functions are required):
+ *
  *     var registrar = {
  *
  *         register: function (target) {
@@ -5993,6 +6134,15 @@ izi.inject = function (beanIdOrType) {izi.sanityOf("inject()").args(izi.arg().of
  *     };
  *
  *     izi.perform(registrar).on(target);
+ *
+ * ... or nothing to get grouping method:
+ *
+ *     var perform = izi.perform();
+ *
+ *     perform(behavior1).when("click").on(button1);
+ *     perform(behavior2).when("click").on(button2);
+ *
+ *     perform.stopObserving(); // will stop observing them all
  *
  * @noSanity
  * @param {Function|Object} functionOrBehaviorOrRegistrar
@@ -6085,6 +6235,7 @@ izi.registerQueueImpl = function (impl) {izi.sanityOf("registerQueueImpl()").arg
 };izi.isDebug = true;
 /**
  * Init izi-chrome-extension if available
+ * @ignore
  */
 if (izi.chromeExtension) {
     izi.chromeExtension.init();

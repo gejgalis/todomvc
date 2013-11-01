@@ -24,8 +24,6 @@
             taskBehaviors: new todo.behaviors.TaskBehaviors(),
             footerBehaviors: new todo.behaviors.FooterBehaviors(),
 
-            whenPressedEnter: izi.protoOf(todo.behaviors.WhenPressedEnter),
-
             // Services
             localStorageService: new todo.services.LocalStorageService("todos-izi-js-jquery"),
             tasksService: new todo.services.TasksService(),

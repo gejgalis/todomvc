@@ -10,6 +10,15 @@ todo.behaviors.TaskBehaviors = Class.create(
          */
         taskFinder: izi.inject("todo.utils.TaskFinder"),
 
+        init: function () {
+            todo.utils.bindMethods(this, [
+                "removeTask",
+                "startEditingTask",
+                "endEditingTask",
+                "toggleCompleted"
+            ]);
+        },
+
         removeTask: function (event) {
             this.model.removeTask(this._getTaskModel(event));
         },
