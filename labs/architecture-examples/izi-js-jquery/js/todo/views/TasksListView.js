@@ -7,7 +7,8 @@ todo.views.TasksListView = Class.create(
 
         init: function () {
             this.$container = $("#todo-list");
-            this.template = Handlebars.compile($('#task-template').html());
+            this.template = $('#task-template').html();
+            Mustache.parse(this.template);
 
             this.renderTasks = $.proxy(this.renderTasks, this);
         },
@@ -27,7 +28,8 @@ todo.views.TasksListView = Class.create(
         },
 
         renderTasks: function () {
-            this.$container.html(this.template(this.model.items()));
+            var tasksHtml = Mustache.render(this.template, {items: this.model.items()});
+            this.$container.html(tasksHtml);
         }
     }
 );

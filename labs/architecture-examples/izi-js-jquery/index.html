@@ -55,21 +55,21 @@
 </footer>
 
 <script id="task-template" type="text/x-handlebars-template">
-    {{#this}}
-    <li class="task {{#if completed}}completed{{/if}}" data-id="{{id}}">
+    {{#items}}
+    <li class="task {{#completed}}completed{{/completed}}" data-id="{{id}}">
     <div class="view">
-        <input class="toggle" type="checkbox" {{#if completed}}checked{{/if}}>
+        <input class="toggle" type="checkbox" {{#completed}}checked{{/completed}}>
         <label>{{title}}</label>
         <button class="destroy"></button>
     </div>
     <input class="edit" value="{{title}}">
     </li>
-    {{/this}}
+    {{/items}}
 </script>
 
 <!--Libraries-->
 <script src="js/libs/jquery-1.10.1.js"></script>
-<script src="js/libs/handlebars-1.0.0.js"></script>
+<script src="js/libs/mustache.js"></script>
 <script src="js/libs/Class-0.0.2.js"></script>
 
 <script src="js/todo/utils/selectRange.js"></script>
